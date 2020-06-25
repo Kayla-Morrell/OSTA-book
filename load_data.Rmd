@@ -1,3 +1,66 @@
 # Load data {#load_data}
 
+```{r setup, echo=FALSE, results="asis"}
+library(rebook)
+chapterPreamble(cache = TRUE)
+```
+
+
+## Overview
+
+In this chapter, we show how to load and inspect the example dataset used in the rest of the analysis pipeline chapters.
+
+The example dataset is a subset of a 10x Genomics Visium dataset from healthy human brain samples from the dorsolateral prefrontal cortex (DLPFC) region, from our publication @Maynard2020-ke.
+
+For more details on the dataset, see the [Human DLPFC workflow](#human_DLPFC_dataset) chapter.
+
+
+
+## Install packages
+
+Install required packages (if not already installed).
+
+```{r unref-install_packages, eval=FALSE}
+install.packages("remotes")
+remotes::install_github("drighelli/SpatialExperiment")
+
+install.packages("BiocManager")
+BiocManager::install("ExperimentHub")
+remotes::install_github("lmweber/STdata")
+```
+
+
+
+## Load data
+
+Load the human DLPFC example dataset from the [STdata](https://github.com/lmweber/STdata) package. Note that this is a subset containing only one sample (sample 151673) from the full dataset. See [Human DLPFC workflow](#human_DLPFC_dataset) for details.
+
+```{r load_data, message=FALSE}
+library(ExperimentHub)
+library(STdata)
+
+ehub <- ExperimentHub()
+
+spe <- load_data("human_DLPFC")
+```
+
+
+
+## Inspect object
+
+The example dataset is currently provided as a `SingleCellExperiment` object. We can inspect this object as follows.
+
+(TO DO: update to use `SpatialExperiment`, which also includes the `spatialCoords` slot.)
+
+We see that the object contains 33,538 rows (genes), 3,639 columns (spots or spatial barcodes), one `assay` (`counts` containing raw counts), `rowData` contains columns describing the genes, and `colData` contains columns describing the spots (including `x_coord` and `y_coord` containing the x and y coordinates from the tissue slide).
+
+```{r inspect_object, message=FALSE}
+spe
+class(spe)
+dim(spe)
+names(assays(spe))
+head(rowData(spe), 3)
+head(colData(spe), 3)
+```
+
 
