@@ -50,7 +50,7 @@ spe <- load_data("human_DLPFC")
 
 The example dataset is currently provided as a `SingleCellExperiment` object. We can inspect this object as follows.
 
-(TO DO: update to use `SpatialExperiment`, which also includes the `spatialCoords` slot.)
+[TO DO: update to use `SpatialExperiment`, which also includes the `spatialCoords` slot.]
 
 We see that the object contains 33,538 rows (genes), 3,639 columns (spots or spatial barcodes), one `assay` (`counts` containing raw counts), `rowData` contains columns describing the genes, and `colData` contains columns describing the spots (including `x_coord` and `y_coord` containing the x and y coordinates from the tissue slide).
 
