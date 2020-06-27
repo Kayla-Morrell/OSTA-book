@@ -1,0 +1,4 @@
+# Pseudobulking {#pseudobulking}
+
+Chapter on pseudobulking analyses, e.g. if cell population labels are available from some external source. The human DLPFC dataset contains manually annotated cell population labels, which can be used for pseudobulking (manually guided or partially supervised) analyses, as described in our paper [@Maynard2020-ke].
+
