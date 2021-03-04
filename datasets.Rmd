@@ -1,0 +1,23 @@
+# Datasets {#datasets}
+
+```{r setup, echo=FALSE, results="asis"}
+library(rebook)
+chapterPreamble(cache = TRUE)
+```
+
+
+## Overview
+
+chapter describing the datasets used in this book
+
+
+### Dataset 1
+
+human DLPFC
+
+
+### Dataset 2
+
+mouse coronal
+
+
