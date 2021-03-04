@@ -1,0 +1,9 @@
+# Image segmentation {#image_segmentation}
+
+
+## Overview
+
+Chapter on image segmentation
+
+Identify number of cells per spot
+

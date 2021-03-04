@@ -1,0 +1,12 @@
+# (PART) Preprocessing {-}
+
+# Preprocessing {#preprocessing}
+
+Preprocessing steps:
+
+Image segmentation
+
+Space Ranger
+
+Getting data into R
+
