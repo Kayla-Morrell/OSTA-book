@@ -1,17 +1,12 @@
 # Interpretation {#Interpretation}
 
-```{r setup, echo=FALSE, results="asis"}
-library(rebook)
-chapterPreamble(cache = TRUE)
-```
-
 
 ## Overview
 
 Chapter on interpretation.
 
-```{r, echo=FALSE, results="asis"}
-extractCached("human_DLPFC.Rmd", "clustering_plots", "spe")
+```{r, echo=FALSE, results="asis", cache=TRUE}
+# add steps to generate object up to here and cache
 ```
 
 
