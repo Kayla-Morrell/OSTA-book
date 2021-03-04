@@ -1,22 +1,18 @@
 # Space Ranger {#space_ranger}
 
+Draft structure and points to cover (but feel free to change)
+
 
 ## Overview
 
-Possible points to discuss:
+## Installation
 
-Installation
+## Memory issues
 
-Manual alignment of images
+## How to run spaceranger count
 
-How to run spaceranger count
+## Image alignment .json file
 
-Memory issues
-
-Output files
-
-Loupe
-
-Import into R
+## Output files and importing into R
 
 
