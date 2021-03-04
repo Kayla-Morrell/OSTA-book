@@ -21,18 +21,18 @@ remotes::install_github("drighelli/SpatialExperiment")
 
 install.packages("BiocManager")
 BiocManager::install("ExperimentHub")
-remotes::install_github("lmweber/STdata")
+remotes::install_github("lmweber/STexampleData")
 ```
 
 
 
 ## Load data
 
-Load the human DLPFC example dataset from the [STdata](https://github.com/lmweber/STdata) package. Note that this is a subset containing only one sample (sample 151673) from the full dataset. See [Human DLPFC workflow](#human_DLPFC_dataset) for details.
+Load the human DLPFC example dataset from the [STexampleData](https://github.com/lmweber/STexampleData) package. Note that this is a subset containing only one sample (sample 151673) from the full dataset. See [Human DLPFC workflow](#human_DLPFC_dataset) for details.
 
 ```{r load_data, message=FALSE}
 library(ExperimentHub)
-library(STdata)
+library(STexampleData)
 
 ehub <- ExperimentHub()
 
