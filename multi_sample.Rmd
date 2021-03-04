@@ -1,4 +1,0 @@
-# Multi-sample experiments {#multi_sample}
-
-Chapter on experiments containing multiple samples, e.g. for differential comparisons between sample groups in different conditions using concept of spatial replicates (spatially adjacent samples or serial sections).
-

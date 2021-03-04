@@ -1,6 +1,0 @@
-# (PART) Extended topics {-}
-
-# Extended topics {#extended_topics}
-
-This part contains chapters describing additional topics that may be relevant for certain experiments. The structure of the chapters is similar to those in [Downstream analyses](#downstream_analyses), so that they can be adapted and added onto an analysis pipeline as required.
-
