@@ -1,0 +1,111 @@
+# Clustering {#clustering}
+
+
+## Overview
+
+Clustering is used in single-cell and spatial analysis to identify cell types.
+
+The definition of "cell type" is somewhat nebulous, and can depend to some extent on the biological context. Major cell types are generally well-defined and well-characterized (e.g. T cells, B cells, etc), while the definitions of more subtle or higher-resolution cell types may be somewhat less clear.
+
+In the spatial context, we may be interested in e.g. (i) identifying cell types that occur in biologically interesting spatial patterns, or (ii) identifying major cell types and performing subsequent analyses within these cell types.
+
+
+
+## Previous steps
+
+*Code (hidden) to run steps from the previous chapters, to generate the `SpatialExperiment` object required for this chapter.*
+
+
+
+
+
+## Clustering on HVGs
+
+We can perform clustering by applying standard clustering methods developed for single-cell RNA sequencing data, using molecular features (gene expression). Here, we apply graph-based clustering using the Walktrap method implemented in `scran` [@Lun2016-dn], applied to the top 50 PCs calculated on the set of top HVGs.
+
+In the context of spatial data, this means we assume that biologically informative spatial distribution patterns of cell types can be detected from the molecular features (gene expression). Below, we also discuss alternative methods that directly take spatial information into account during clustering.
+
+
+```r
+# graph-based clustering
+set.seed(123)
+k <- 10
+g <- buildSNNGraph(spe, k = k, use.dimred = "PCA")
+g_walk <- igraph::cluster_walktrap(g)
+clus <- g_walk$membership
+table(clus)
+```
+
+```
+## clus
+##    1    2    3    4    5    6 
+##  372  916  342 1083  349  520
+```
+
+```r
+# store cluster labels in column 'label' in colData
+colLabels(spe) <- factor(clus)
+```
+
+
+Visualize the clusters by plotting in (i) spatial x-y coordinates on the tissue slide, and (ii) reduced dimension space (PCA or UMAP). We use plotting functions from the [ggspavis](https://github.com/lmweber/ggpavis) package.
+
+For reference, we also display the ground truth (manually annotated) labels available for this dataset (in spatial x-y coordinates).
+
+From the visualizations, we can see that the clustering reproduces the known biological structure (cortical layers), although not perfectly. The clusters are also separated in UMAP space, but again not perfectly.
+
+
+```r
+library(ggspavis)
+
+# plot clusters in spatial x-y coordinates
+plotSpots(spe, discrete = "label", palette = "libd_layer_colors")
+```
+
+<img src="clustering_files/figure-html/clustering_plots-1.png" width="528" />
+
+```r
+# plot ground truth labels in spatial x-y coordinates
+plotSpots(spe, discrete = "ground_truth", palette = "libd_layer_colors")
+```
+
+```
+## Warning: Removed 14 rows containing missing values (geom_point).
+```
+
+<img src="clustering_files/figure-html/clustering_plots-2.png" width="528" />
+
+```r
+# plot clusters in PCA reduced dimensions
+plotDimRed(spe, type = "PCA", x_axis = "PC1", y_axis = "PC2", 
+           discrete = "label", palette = "libd_layer_colors")
+```
+
+<img src="clustering_files/figure-html/clustering_plots-3.png" width="528" />
+
+```r
+# plot clusters in UMAP reduced dimensions
+plotDimRed(spe, type = "UMAP", discrete = "label", palette = "libd_layer_colors")
+```
+
+<img src="clustering_files/figure-html/clustering_plots-4.png" width="528" />
+
+
+
+## Clustering on HVGs and spatial dimensions
+
+Section on approach from our publication @Maynard2020-ke to combine molecular and spatial features with appropriate scaling.
+
+
+
+## BayesSpace
+
+Section on BayesSpace [@Zhao2020]; available in Bioconductor
+
+
+
+## Further methods
+
+Further methods
+
+
