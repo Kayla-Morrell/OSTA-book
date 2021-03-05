@@ -1,4 +1,4 @@
-# Human DLPFC workflow {#human_DLPFC_workflow}
+# Human DLPFC workflow
 
 This workflow analyzes one sample of human brain from the dorsolateral prefrontal cortex (DLPFC) region, measured using the 10x Genomics Visium platform. This is a condensed version of the analyses shown in the individual analysis chapters in the previous part. For more details on any of the individual steps, see the previous chapters.
 
@@ -11,7 +11,7 @@ In the full dataset, there are 12 samples in total, from 3 individuals, with 2 p
 
 For the examples in this workflow and the analysis chapters, we use a single sample from this dataset (sample 151673), mainly to reduce computational requirements to compile the book.
 
-This dataset is described in our publication @Maynard2020-ke. The full dataset is publicly available through the [spatialLIBD](http://bioconductor.org/packages/spatialLIBD) Bioconductor package, and the analysis code from our paper is provided in the [HumanPilot](https://github.com/LieberInstitute/HumanPilot) GitHub repository. The dataset can also be explored interactively through the [spatialLIBD Shiny web app](http://spatial.libd.org/spatialLIBD/).
+This dataset is described in our publication @Maynard2021. The full dataset is publicly available through the [spatialLIBD](http://bioconductor.org/packages/spatialLIBD) Bioconductor package, and the analysis code from our paper is provided in the [HumanPilot](https://github.com/LieberInstitute/HumanPilot) GitHub repository. The dataset can also be explored interactively through the [spatialLIBD Shiny web app](http://spatial.libd.org/spatialLIBD/).
 
 
 ## Load data
@@ -62,7 +62,7 @@ library(ggspavis)
 plotSpots(spe)
 ```
 
-<img src="workflow_human_DLPFC_files/figure-html/plot_data-1.png" width="360" />
+<img src="workflow_human_DLPFC_files/figure-html/plot_data-1.png" width="672" />
 
 
 ## Quality control (QC)
@@ -81,7 +81,7 @@ dim(spe)
 ```
 
 
-Next, calculate spot-level QC metrics using the `scater` package [@McCarthy2017-zd], and store the QC metrics in `colData`. See [Quality control](#quality_control) for more details, including explanations of the QC metrics.
+Next, calculate spot-level QC metrics using the `scater` package [@McCarthy2017], and store the QC metrics in `colData`. See [Quality control] for more details, including explanations of the QC metrics.
 
 
 ```r
@@ -143,7 +143,7 @@ head(colData(spe), 3)
 ```
 
 
-Select filtering thresholds for the QC metrics by examining distributions using histograms. For additional details, including further exploratory visualizations to select the thresholds, see [Quality control](#quality_control). Here, we use relatively relaxed thresholds, since the additional exploratory visualizations showed that more stringent thresholds tended to remove groups of spots corresponding to biologically meaningful regions.
+Select filtering thresholds for the QC metrics by examining distributions using histograms. For additional details, including further exploratory visualizations to select the thresholds, see [Quality control]. Here, we use relatively relaxed thresholds, since the additional exploratory visualizations showed that more stringent thresholds tended to remove groups of spots corresponding to biologically meaningful regions.
 
 
 ```r
@@ -155,7 +155,7 @@ hist(colData(spe)$subsets_mito_percent, xlab = "percent mitochondrial", main = "
 hist(colData(spe)$cell_count, xlab = "number of cells", main = "No. cells per spot")
 ```
 
-<img src="workflow_human_DLPFC_files/figure-html/QC_thresholds-1.png" width="720" />
+<img src="workflow_human_DLPFC_files/figure-html/QC_thresholds-1.png" width="672" />
 
 ```r
 par(mfrow = c(1, 1))
@@ -226,7 +226,7 @@ dim(spe)
 
 ## Normalization
 
-Calculate log-transformed normalized counts, using pool-based size factors and deconvolution to the spot level. We use normalization methods from `scater` [@McCarthy2017-zd] and `scran` [@Lun2016-dn], by assuming that these methods can be applied by treating spots as equivalent to cells. Since we have a single sample, there are no blocking factors. For more details, see [Normalization](#normalization).
+Calculate log-transformed normalized counts, using pool-based size factors and deconvolution to the spot level. We use normalization methods from `scater` [@McCarthy2017] and `scran` [@Lun2016], by assuming that these methods can be applied by treating spots as equivalent to cells. Since we have a single sample, there are no blocking factors. For more details, see [Normalization].
 
 
 ```r
@@ -276,7 +276,7 @@ assayNames(spe)
 
 ## Feature selection
 
-Identify a set of top highly variable genes (HVGs), which will be used to define cell types. We use methods from `scran` [@Lun2016-dn], treating spots as equivalent to cells, and considering only molecular features (gene expression). Alternative methods adapted for spatial data will be described in [Feature selection](#feature_selection). We also first filter out mitochondrial genes, since these are very highly expressed and not of biological interest here.
+Identify a set of top highly variable genes (HVGs), which will be used to define cell types. We use methods from `scran` [@Lun2016], treating spots as equivalent to cells, and considering only molecular features (gene expression). Alternative methods adapted for spatial data will be described in [Feature selection]. We also first filter out mitochondrial genes, since these are very highly expressed and not of biological interest here.
 
 
 ```r
@@ -318,7 +318,7 @@ length(top_hvgs)
 
 Run principal component analysis (PCA) to the set of top HVGs, and retain the top 50 principal components (PCs) for further downstream analyses. This is done both to reduce noise and to improve computational efficiency. We also run UMAP on the set of top 50 PCs and retain the top 2 UMAP components for visualization purposes.
 
-We use the computationally efficient implementation of PCA available in `scater` [@McCarthy2017-zd], which uses randomization, and therefore requires setting a random seed for reproducibility.
+We use the computationally efficient implementation of PCA available in `scater` [@McCarthy2017], which uses randomization, and therefore requires setting a random seed for reproducibility.
 
 
 ```r
@@ -370,7 +370,7 @@ colnames(reducedDim(spe, "UMAP")) <- paste0("UMAP", 1:2)
 
 ## Clustering
 
-Next, we perform clustering to define cell types. Here, we use molecular features (gene expression) only. Alternative approaches for spatial data that take into account spatial and other features will be described in [Clustering](#clustering). We apply graph-based clustering using the Walktrap method implemented in `scran` [@Lun2016-dn], applied to the top 50 PCs calculated on the set of top HVGs.
+Next, we perform clustering to define cell types. Here, we use molecular features (gene expression) only. Alternative approaches for spatial data that take into account spatial and other features will be described in [Clustering]. We apply graph-based clustering using the Walktrap method implemented in `scran` [@Lun2016], applied to the top 50 PCs calculated on the set of top HVGs.
 
 
 ```r
@@ -407,7 +407,7 @@ library(ggspavis)
 plotSpots(spe, discrete = "label", palette = "libd_layer_colors")
 ```
 
-<img src="workflow_human_DLPFC_files/figure-html/clustering_plots-1.png" width="528" />
+<img src="workflow_human_DLPFC_files/figure-html/clustering_plots-1.png" width="672" />
 
 ```r
 # plot ground truth labels in spatial x-y coordinates
@@ -418,19 +418,19 @@ plotSpots(spe, discrete = "ground_truth", palette = "libd_layer_colors")
 ## Warning: Removed 14 rows containing missing values (geom_point).
 ```
 
-<img src="workflow_human_DLPFC_files/figure-html/clustering_plots-2.png" width="528" />
+<img src="workflow_human_DLPFC_files/figure-html/clustering_plots-2.png" width="672" />
 
 ```r
 # plot clusters in UMAP reduced dimensions
 plotDimRed(spe, type = "UMAP", discrete = "label", palette = "libd_layer_colors")
 ```
 
-<img src="workflow_human_DLPFC_files/figure-html/clustering_plots-3.png" width="528" />
+<img src="workflow_human_DLPFC_files/figure-html/clustering_plots-3.png" width="672" />
 
 
 ## Marker genes
 
-Identify marker genes by testing for differential gene expression between clusters. We use the `findMarkers` implementation in `scran` [@Lun2016-dn], using a binomial test, which tests for genes that differ in the proportion expressed vs. not expressed between clusters. This is a more stringent test than the default t-tests, and tends to select genes that are easier to interpret and validate experimentally.
+Identify marker genes by testing for differential gene expression between clusters. We use the `findMarkers` implementation in `scran` [@Lun2016], using a binomial test, which tests for genes that differ in the proportion expressed vs. not expressed between clusters. This is a more stringent test than the default t-tests, and tends to select genes that are easier to interpret and validate experimentally.
 
 
 ```r

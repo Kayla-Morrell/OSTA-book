@@ -1,4 +1,4 @@
-# Clustering {#clustering}
+# Clustering
 
 
 ## Overview
@@ -13,15 +13,97 @@ In the spatial context, we may be interested in e.g. (i) identifying cell types 
 
 ## Previous steps
 
-*Code (hidden) to run steps from the previous chapters, to generate the `SpatialExperiment` object required for this chapter.*
+*Code to run steps from the previous chapters, to generate the `SpatialExperiment` object required for this chapter.*
 
 
+```r
+# ---------
+# load data
+# ---------
+
+library(SpatialExperiment)
+library(STexampleData)
+
+spe <- load_data("Visium_humanDLPFC")
+
+# --------------------
+# quality control (QC)
+# --------------------
+
+library(scater)
+
+# subset to keep only spots over tissue
+spe <- spe[, spatialData(spe)$in_tissue == 1]
+
+# identify mitochondrial genes
+is_mito <- grepl("(^MT-)|(^mt-)", rowData(spe)$gene_name)
+
+# calculate per-spot QC metrics and store in colData
+spe <- addPerCellQC(spe, subsets = list(mito = is_mito))
+
+# select QC thresholds
+qc_lib_size <- colData(spe)$sum < 500
+qc_detected <- colData(spe)$detected < 250
+qc_mito <- colData(spe)$subsets_mito_percent > 30
+qc_cell_count <- colData(spe)$cell_count > 12
+
+# combined set of discarded spots
+discard <- qc_lib_size | qc_detected | qc_mito | qc_cell_count
+colData(spe)$discard <- discard
+
+# filter low-quality spots
+spe <- spe[, !colData(spe)$discard]
+
+# -------------
+# normalization
+# -------------
+
+library(scran)
+
+# quick clustering for pool-based size factors
+set.seed(123)
+qclus <- quickCluster(spe)
+
+# calculate size factors and store in object
+spe <- computeSumFactors(spe, cluster = qclus)
+
+# calculate logcounts (log-transformed normalized counts) and store in object
+spe <- logNormCounts(spe)
+
+# -----------------
+# feature selection
+# -----------------
+
+# remove mitochondrial genes
+spe <- spe[!is_mito, ]
+
+# fit mean-variance relationship
+dec <- modelGeneVar(spe)
+
+# select top HVGs
+top_hvgs <- getTopHVGs(dec, prop = 0.1)
+
+# ------------------------
+# dimensionality reduction
+# ------------------------
+
+# compute PCA
+set.seed(123)
+spe <- runPCA(spe, subset_row = top_hvgs)
+
+# compute UMAP on top 50 PCs
+set.seed(123)
+spe <- runUMAP(spe, dimred = "PCA")
+
+# update column names for plotting functions
+colnames(reducedDim(spe, "UMAP")) <- paste0("UMAP", 1:2)
+```
 
 
 
 ## Clustering on HVGs
 
-We can perform clustering by applying standard clustering methods developed for single-cell RNA sequencing data, using molecular features (gene expression). Here, we apply graph-based clustering using the Walktrap method implemented in `scran` [@Lun2016-dn], applied to the top 50 PCs calculated on the set of top HVGs.
+We can perform clustering by applying standard clustering methods developed for single-cell RNA sequencing data, using molecular features (gene expression). Here, we apply graph-based clustering using the Walktrap method implemented in `scran` [@Lun2016], applied to the top 50 PCs calculated on the set of top HVGs.
 
 In the context of spatial data, this means we assume that biologically informative spatial distribution patterns of cell types can be detected from the molecular features (gene expression). Below, we also discuss alternative methods that directly take spatial information into account during clustering.
 
@@ -62,7 +144,7 @@ library(ggspavis)
 plotSpots(spe, discrete = "label", palette = "libd_layer_colors")
 ```
 
-<img src="clustering_files/figure-html/clustering_plots-1.png" width="528" />
+<img src="clustering_files/figure-html/clustering_plots-1.png" width="672" />
 
 ```r
 # plot ground truth labels in spatial x-y coordinates
@@ -73,28 +155,27 @@ plotSpots(spe, discrete = "ground_truth", palette = "libd_layer_colors")
 ## Warning: Removed 14 rows containing missing values (geom_point).
 ```
 
-<img src="clustering_files/figure-html/clustering_plots-2.png" width="528" />
+<img src="clustering_files/figure-html/clustering_plots-2.png" width="672" />
 
 ```r
 # plot clusters in PCA reduced dimensions
-plotDimRed(spe, type = "PCA", x_axis = "PC1", y_axis = "PC2", 
-           discrete = "label", palette = "libd_layer_colors")
+plotDimRed(spe, type = "PCA", discrete = "label", palette = "libd_layer_colors")
 ```
 
-<img src="clustering_files/figure-html/clustering_plots-3.png" width="528" />
+<img src="clustering_files/figure-html/clustering_plots-3.png" width="672" />
 
 ```r
 # plot clusters in UMAP reduced dimensions
 plotDimRed(spe, type = "UMAP", discrete = "label", palette = "libd_layer_colors")
 ```
 
-<img src="clustering_files/figure-html/clustering_plots-4.png" width="528" />
+<img src="clustering_files/figure-html/clustering_plots-4.png" width="672" />
 
 
 
 ## Clustering on HVGs and spatial dimensions
 
-Section on approach from our publication @Maynard2020-ke to combine molecular and spatial features with appropriate scaling.
+Section on approach from our publication @Maynard2021 to combine molecular and spatial features with appropriate scaling.
 
 
 

@@ -1,4 +1,4 @@
-# SpatialExperiment {#spatialexperiment}
+# SpatialExperiment
 
 In this book, we use the [SpatialExperiment](https://bioconductor.org/packages/SpatialExperiment) class from Bioconductor as the main data structure for storing data objects.
 

@@ -1,4 +1,4 @@
-# Quality control {#quality_control}
+# Quality control
 
 
 ## Background
@@ -22,6 +22,7 @@ Low library size or low number of expressed features can indicate poor mRNA capt
 The first three characteristics listed above are also used for QC in scRNA-seq data. However, the expected distributions for high-quality spots are different (compared to high-quality cells in scRNA-seq), since spots may contain zero, one, or multiple cells.
 
 
+
 ## Load data
 
 
@@ -31,27 +32,8 @@ library(STexampleData)
 
 # load object
 spe <- load_data("Visium_humanDLPFC")
-spe
 ```
 
-```
-## class: SpatialExperiment 
-## dim: 33538 4992 
-## metadata(0):
-## assays(1): counts
-## rownames(33538): ENSG00000243485 ENSG00000237613 ... ENSG00000277475
-##   ENSG00000268674
-## rowData names(3): gene_id gene_name feature_type
-## colnames(4992): AAACAACGAATAGTTC-1 AAACAAGTATCTCCCA-1 ...
-##   TTGTTTGTATTACACG-1 TTGTTTGTGTAAATTC-1
-## colData names(10): barcode_id imagerow ... pxl_col_in_fullres
-##   pxl_row_in_fullres
-## reducedDimNames(0):
-## mainExpName: NULL
-## altExpNames(0):
-## spatialData names(4) : barcode_id in_tissue x y
-## imgData names(4): sample_id image_id data scaleFactor
-```
 
 
 ## Plot data
@@ -68,12 +50,13 @@ library(ggspavis)
 plotSpots(spe)
 ```
 
-<img src="quality_control_files/figure-html/plot_data-1.png" width="360" />
+<img src="quality_control_files/figure-html/plot_data-1.png" width="672" />
+
 
 
 ## Calculate QC metrics
 
-We calculate the QC metrics described above with a combination of methods from the `scater` [@McCarthy2017-zd] package (for metrics that are also used for scRNA-seq data, where we treat spots as equivalent to cells) and our own functions.
+We calculate the QC metrics described above with a combination of methods from the `scater` [@McCarthy2017] package (for metrics that are also used for scRNA-seq data, where we treat spots as equivalent to cells) and our own functions.
 
 The QC metrics from `scater` can be calculated and added to the `SpatialExperiment` object as follows. Here, we also identify mitochondrial reads using their gene names, and pass these as an argument to `scater`.
 
@@ -151,6 +134,7 @@ head(colData(spe), 3)
 ```
 
 
+
 ## Selecting thresholds
 
 The simplest option to apply the QC metrics is to select thresholds for each metric, and remove any spots that do not meet the thresholds for one or more metrics. Exploratory visualizations can be used to help select appropriate thresholds, which may differ depending on the dataset.
@@ -186,7 +170,7 @@ plotQCscatter(spe,
               threshold_y = 500, marginal = TRUE)
 ```
 
-<img src="quality_control_files/figure-html/plot_lib_size_scatter-1.png" width="432" />
+<img src="quality_control_files/figure-html/plot_lib_size_scatter-1.png" width="672" />
 
 The plot shows that setting a filtering threshold for library size (e.g. at the value shown) does not appear to select for any obvious biologically consistent group of spots.
 
@@ -276,7 +260,7 @@ plotQCscatter(spe,
 ## `geom_smooth()` using formula 'y ~ x'
 ```
 
-<img src="quality_control_files/figure-html/plot_detected_scatter-1.png" width="432" />
+<img src="quality_control_files/figure-html/plot_detected_scatter-1.png" width="672" />
 
 Based on the plots, we select a threshold of 250 expressed genes per spot.
 
@@ -346,7 +330,7 @@ plotQCscatter(spe,
 ## `geom_smooth()` using formula 'y ~ x'
 ```
 
-<img src="quality_control_files/figure-html/plot_mito_scatter-1.png" width="432" />
+<img src="quality_control_files/figure-html/plot_mito_scatter-1.png" width="672" />
 
 We select a threshold of 30% for the mitochondrial read proportion.
 
@@ -423,7 +407,7 @@ plotQCscatter(spe,
 ## `geom_smooth()` using formula 'y ~ x'
 ```
 
-<img src="quality_control_files/figure-html/plot_cell_count_scatter-1.png" width="432" />
+<img src="quality_control_files/figure-html/plot_cell_count_scatter-1.png" width="672" />
 
 In particular, we see that the spots with very high cell counts also have low numbers of expressed genes. This indicates that the experiments have failed for these spots, and they should be removed.
 
@@ -546,7 +530,7 @@ prop_cells_per_spot[1:13]
 
 Only 6% of spots contain a single cell. If we restricted the analysis to these spots only, we would be discarding most of the data.
 
-Removing the spots containing zero cells (2% of spots) would also be problematic, since these spots can also contain biologically meaningful information. For example, in this brain dataset, the regions between cell bodies consists of neuropil (dense networks of axons and dendrites). In our paper [@Maynard2020-ke], we explore the information contained in these neuropil spots.
+Removing the spots containing zero cells (2% of spots) would also be problematic, since these spots can also contain biologically meaningful information. For example, in this brain dataset, the regions between cell bodies consists of neuropil (dense networks of axons and dendrites). In our paper [@Maynard2021], we explore the information contained in these neuropil spots.
 
 
 
@@ -554,6 +538,6 @@ Removing the spots containing zero cells (2% of spots) would also be problematic
 
 The sections above consider quality control at the spot level. In some datasets, it may also be appropriate to apply quality control procedures or filtering at the gene level. For example, certain genes may be biologically irrelevant for downstream analyses.
 
-However, here we make a distinction between quality control and feature selection. Removing biologically uninteresting genes (such as mitochondrial genes) may also be considered as part of feature selection, since there is no underlying experimental procedure that has failed. Therefore, we will discuss gene-level filtering in the [Feature selection](#feature_selection) chapter.
+However, here we make a distinction between quality control and feature selection. Removing biologically uninteresting genes (such as mitochondrial genes) may also be considered as part of feature selection, since there is no underlying experimental procedure that has failed. Therefore, we will discuss gene-level filtering in the [Feature selection] chapter.
 
 

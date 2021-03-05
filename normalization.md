@@ -1,4 +1,4 @@
-# Normalization {#normalization}
+# Normalization
 
 
 ## Background
@@ -8,16 +8,54 @@ Details on normalization in single-cell and spatial data.
 
 ## Previous steps
 
-*Code (hidden) to run steps from the previous chapters, to generate the `SpatialExperiment` object required for this chapter.*
+*Code to run steps from the previous chapters, to generate the `SpatialExperiment` object required for this chapter.*
 
 
+```r
+# ---------
+# load data
+# ---------
+
+library(SpatialExperiment)
+library(STexampleData)
+
+spe <- load_data("Visium_humanDLPFC")
+
+# --------------------
+# quality control (QC)
+# --------------------
+
+library(scater)
+
+# subset to keep only spots over tissue
+spe <- spe[, spatialData(spe)$in_tissue == 1]
+
+# identify mitochondrial genes
+is_mito <- grepl("(^MT-)|(^mt-)", rowData(spe)$gene_name)
+
+# calculate per-spot QC metrics and store in colData
+spe <- addPerCellQC(spe, subsets = list(mito = is_mito))
+
+# select QC thresholds
+qc_lib_size <- colData(spe)$sum < 500
+qc_detected <- colData(spe)$detected < 250
+qc_mito <- colData(spe)$subsets_mito_percent > 30
+qc_cell_count <- colData(spe)$cell_count > 12
+
+# combined set of discarded spots
+discard <- qc_lib_size | qc_detected | qc_mito | qc_cell_count
+colData(spe)$discard <- discard
+
+# filter low-quality spots
+spe <- spe[, !colData(spe)$discard]
+```
 
 
 ## Log-transformed normalized counts
 
 Calculate log-transformed normalized counts (abbreviated as "logcounts"), using pool-based size factors and deconvolution to the spot level.
 
-We use normalization methods from `scater` [@McCarthy2017-zd] and `scran` [@Lun2016-dn], which were originally developed for single-cell RNA sequencing data. We make the assumption that these methods can be applied here by treating spots as equivalent to cells.
+We use normalization methods from `scater` [@McCarthy2017] and `scran` [@Lun2016], which were originally developed for single-cell RNA sequencing data. We make the assumption that these methods can be applied here by treating spots as equivalent to cells.
 
 Since we have only a single sample, there are no blocking factors in the experimental design.
 
@@ -59,11 +97,28 @@ hist(sizeFactors(spe), breaks = 20)
 # calculate logcounts (log-transformed normalized counts) and store in object
 spe <- logNormCounts(spe)
 
+# check
 assayNames(spe)
 ```
 
 ```
 ## [1] "counts"    "logcounts"
+```
+
+```r
+dim(counts(spe))
+```
+
+```
+## [1] 33538  3582
+```
+
+```r
+dim(logcounts(spe))
+```
+
+```
+## [1] 33538  3582
 ```
 
 

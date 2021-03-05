@@ -1,4 +1,4 @@
-# Spatially resolved transcriptomics {#spatially_resolved_transcriptomics}
+# Spatially resolved transcriptomics
 
 Spatially resolved transcriptomics (ST) technologies allow transcriptome-wide gene expression to be measured at spatial resolution. There are several technological platforms, each with their unique advantages.
 
@@ -16,12 +16,15 @@ The dimensions of the tissue slide are approximately 6.5mm by 6.5mm, and contain
 </div>
 
 
-### Slide-seqV2
+## Slide-seqV2
 
 
-### seqFISH
+## seqFISH
 
 
-### MERFISH
+## MERFISH
+
+
+## Other platforms
 
 

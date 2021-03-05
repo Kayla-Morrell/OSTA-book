@@ -1,4 +1,4 @@
-# Dimensionality reduction {#dimensionality_reduction}
+# Dimensionality reduction
 
 
 ## Background
@@ -9,9 +9,76 @@ Chapter on dimensionality reduction
 
 ## Previous steps
 
-*Code (hidden) to run steps from the previous chapters, to generate the `SpatialExperiment` object required for this chapter.*
+*Code to run steps from the previous chapters, to generate the `SpatialExperiment` object required for this chapter.*
 
 
+```r
+# ---------
+# load data
+# ---------
+
+library(SpatialExperiment)
+library(STexampleData)
+
+spe <- load_data("Visium_humanDLPFC")
+
+# --------------------
+# quality control (QC)
+# --------------------
+
+library(scater)
+
+# subset to keep only spots over tissue
+spe <- spe[, spatialData(spe)$in_tissue == 1]
+
+# identify mitochondrial genes
+is_mito <- grepl("(^MT-)|(^mt-)", rowData(spe)$gene_name)
+
+# calculate per-spot QC metrics and store in colData
+spe <- addPerCellQC(spe, subsets = list(mito = is_mito))
+
+# select QC thresholds
+qc_lib_size <- colData(spe)$sum < 500
+qc_detected <- colData(spe)$detected < 250
+qc_mito <- colData(spe)$subsets_mito_percent > 30
+qc_cell_count <- colData(spe)$cell_count > 12
+
+# combined set of discarded spots
+discard <- qc_lib_size | qc_detected | qc_mito | qc_cell_count
+colData(spe)$discard <- discard
+
+# filter low-quality spots
+spe <- spe[, !colData(spe)$discard]
+
+# -------------
+# normalization
+# -------------
+
+library(scran)
+
+# quick clustering for pool-based size factors
+set.seed(123)
+qclus <- quickCluster(spe)
+
+# calculate size factors and store in object
+spe <- computeSumFactors(spe, cluster = qclus)
+
+# calculate logcounts (log-transformed normalized counts) and store in object
+spe <- logNormCounts(spe)
+
+# -----------------
+# feature selection
+# -----------------
+
+# remove mitochondrial genes
+spe <- spe[!is_mito, ]
+
+# fit mean-variance relationship
+dec <- modelGeneVar(spe)
+
+# select top HVGs
+top_hvgs <- getTopHVGs(dec, prop = 0.1)
+```
 
 
 
@@ -21,7 +88,7 @@ Apply principal component analysis (PCA) to the set of top highly variable genes
 
 This is done for two reasons: (i) to reduce noise due to random variation in expression of biologically uninteresting genes, which are assumed to have expression patterns that are independent of each other, and (ii) to improve computational efficiency during downstream analyses.
 
-We use the computationally efficient implementation of PCA provided in the `scater` package [@McCarthy2017-zd]. This implementation uses randomization, and therefore requires setting a random seed for reproducibility.
+We use the computationally efficient implementation of PCA provided in the `scater` package [@McCarthy2017]. This implementation uses randomization, and therefore requires setting a random seed for reproducibility.
 
 
 ```r
@@ -48,7 +115,7 @@ dim(reducedDim(spe, "PCA"))
 
 ## Uniform Manifold Approximation and Projection (UMAP)
 
-We also run UMAP [@McInnes2018-lx] on the set of top 50 PCs and retain the top 2 UMAP components, which will be used for visualization purposes.
+We also run UMAP [@McInnes2018] on the set of top 50 PCs and retain the top 2 UMAP components, which will be used for visualization purposes.
 
 
 ```r
@@ -80,6 +147,23 @@ colnames(reducedDim(spe, "UMAP")) <- paste0("UMAP", 1:2)
 
 ## Visualizations
 
-In the next section on clustering, we will use the reduced dimensions (PCA and UMAP) to plot cluster labels in reduced dimension space.
+Generate plots using plotting functions from the [ggspavis](https://github.com/lmweber/ggpavis) package. In the next chapter on clustering, we will add cluster labels to these reduced dimension plots.
+
+
+```r
+library(ggspavis)
+
+# plot top 2 PCA dimensions
+plotDimRed(spe, type = "PCA")
+```
+
+<img src="dimensionality_reduction_files/figure-html/reduced_dim_plots-1.png" width="672" />
+
+```r
+# plot top 2 UMAP dimensions
+plotDimRed(spe, type = "UMAP")
+```
+
+<img src="dimensionality_reduction_files/figure-html/reduced_dim_plots-2.png" width="672" />
 
 
