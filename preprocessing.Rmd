@@ -1,7 +1,0 @@
-# (PART) Preprocessing {-}
-
-# Preprocessing {#preprocessing}
-
-In this part, we describe several steps required to process raw data files in order to load the data into R. In these preprocessing chapters, we focus on the 10x Genomics Visium platform, which we are most familiar with. The downstream analysis steps in subsequent sections are more generally applicable across technologies.
-
-
