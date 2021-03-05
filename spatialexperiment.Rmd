@@ -1,4 +1,4 @@
-# SpatialExperiment {#spatialexperiment}
+# SpatialExperiment
 
 In this book, we use the [SpatialExperiment](https://bioconductor.org/packages/SpatialExperiment) class from Bioconductor as the main data structure for storing data objects.
 
@@ -14,7 +14,7 @@ A summary of the `SpatialExperiment` object structure is show in the following f
 For more details, see our paper [SpatialExperiment: infrastructure for spatially resolved transcriptomics data in R using Bioconductor](https://www.biorxiv.org/content/10.1101/2021.01.27.428431v1) (currently available as a preprint from bioRxiv).
 
 
-```{r spe-schematic, fig.wide=TRUE, echo=FALSE, fig.cap="Overview of the `SpatialExperiment` object class for storing spatially resolved transcriptomics datasets in the Bioconductor framework."}
+```{r spe-schematic, fig.width=5, echo=FALSE, fig.cap="Overview of the `SpatialExperiment` object class for storing spatially resolved transcriptomics datasets in the Bioconductor framework."}
 knitr::include_graphics("images/SpatialExperiment.png")
 ```
 
