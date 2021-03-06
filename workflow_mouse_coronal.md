@@ -423,22 +423,20 @@ library(ggspavis)
 
 # define custom color palette
 colors <- unname(palette.colors(palette = "Polychrome 36"))
-```
 
-
-```r
 # plot clusters in spatial x-y coordinates
 plotSpots(spe, discrete = "label", palette = colors)
 ```
 
-<img src="workflow_mouse_coronal_files/figure-html/clustering_plots_reduced-1.png" width="480" />
+<img src="workflow_mouse_coronal_files/figure-html/clustering_plots_spots-1.png" width="672" />
+
 
 ```r
 # plot clusters in UMAP dimensions
 plotDimRed(spe, type = "UMAP", discrete = "label", palette = colors)
 ```
 
-<img src="workflow_mouse_coronal_files/figure-html/clustering_plots_reduced-2.png" width="480" />
+<img src="workflow_mouse_coronal_files/figure-html/clustering_plots_reduced-1.png" width="480" />
 
 
 ## Marker genes

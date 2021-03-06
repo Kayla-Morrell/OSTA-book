@@ -14,8 +14,8 @@ A summary of the `SpatialExperiment` object structure is show in the following f
 For more details, see our paper [SpatialExperiment: infrastructure for spatially resolved transcriptomics data in R using Bioconductor](https://www.biorxiv.org/content/10.1101/2021.01.27.428431v1) (currently available as a preprint from bioRxiv).
 
 
-<div class="figure">
-<img src="images/SpatialExperiment.png" alt="Overview of the `SpatialExperiment` object class for storing spatially resolved transcriptomics datasets in the Bioconductor framework." width="50%" />
+<div class="figure" style="text-align: center">
+<img src="images/SpatialExperiment.png" alt="Overview of the `SpatialExperiment` object class for storing spatially resolved transcriptomics datasets in the Bioconductor framework." width="40%" />
 <p class="caption">(\#fig:spe-schematic)Overview of the `SpatialExperiment` object class for storing spatially resolved transcriptomics datasets in the Bioconductor framework.</p>
 </div>
 
