@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 6 Image segmentation | Orchestrating Spatially Resolved Transcriptomics Analysis with Bioconductor</title>
+  <title>Chapter 5 Image segmentation | Orchestrating Spatially Resolved Transcriptomics Analysis with Bioconductor</title>
   <meta name="description" content="Online textbook on ‘Orchestrating Spatially Resolved Transcriptomics Analysis with Bioconductor’" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 6 Image segmentation | Orchestrating Spatially Resolved Transcriptomics Analysis with Bioconductor" />
+  <meta property="og:title" content="Chapter 5 Image segmentation | Orchestrating Spatially Resolved Transcriptomics Analysis with Bioconductor" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 6 Image segmentation | Orchestrating Spatially Resolved Transcriptomics Analysis with Bioconductor" />
+  <meta name="twitter:title" content="Chapter 5 Image segmentation | Orchestrating Spatially Resolved Transcriptomics Analysis with Bioconductor" />
   
   <meta name="twitter:description" content="Online textbook on ‘Orchestrating Spatially Resolved Transcriptomics Analysis with Bioconductor’" />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="loupe-browser.html"/>
-<link rel="next" href="space-ranger.html"/>
+<link rel="prev" href="preprocessing-steps.html"/>
+<link rel="next" href="loupe-browser.html"/>
 <script src="libs/header-attrs-2.7/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -155,22 +155,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="part"><span><b>II Preprocessing steps</b></span></li>
 <li class="chapter" data-level="4" data-path="preprocessing-steps.html"><a href="preprocessing-steps.html"><i class="fa fa-check"></i><b>4</b> Preprocessing steps</a></li>
-<li class="chapter" data-level="5" data-path="loupe-browser.html"><a href="loupe-browser.html"><i class="fa fa-check"></i><b>5</b> Loupe Browser</a>
+<li class="chapter" data-level="5" data-path="image-segmentation.html"><a href="image-segmentation.html"><i class="fa fa-check"></i><b>5</b> Image segmentation</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="loupe-browser.html"><a href="loupe-browser.html#overview"><i class="fa fa-check"></i><b>5.1</b> Overview</a></li>
-<li class="chapter" data-level="5.2" data-path="loupe-browser.html"><a href="loupe-browser.html#automatic-alignment-of-images"><i class="fa fa-check"></i><b>5.2</b> Automatic alignment of images</a></li>
-<li class="chapter" data-level="5.3" data-path="loupe-browser.html"><a href="loupe-browser.html#manual-alignment-of-images"><i class="fa fa-check"></i><b>5.3</b> Manual alignment of images</a></li>
-<li class="chapter" data-level="5.4" data-path="loupe-browser.html"><a href="loupe-browser.html#output-files-for-space-ranger"><i class="fa fa-check"></i><b>5.4</b> Output files for Space Ranger</a></li>
-<li class="chapter" data-level="5.5" data-path="loupe-browser.html"><a href="loupe-browser.html#downstream-analyses-in-loupe-browser"><i class="fa fa-check"></i><b>5.5</b> Downstream analyses in Loupe Browser</a></li>
+<li class="chapter" data-level="5.1" data-path="image-segmentation.html"><a href="image-segmentation.html#overview"><i class="fa fa-check"></i><b>5.1</b> Overview</a></li>
+<li class="chapter" data-level="5.2" data-path="image-segmentation.html"><a href="image-segmentation.html#split-histology-images"><i class="fa fa-check"></i><b>5.2</b> Split histology images</a></li>
+<li class="chapter" data-level="5.3" data-path="image-segmentation.html"><a href="image-segmentation.html#file-size-issues"><i class="fa fa-check"></i><b>5.3</b> File size issues</a></li>
+<li class="chapter" data-level="5.4" data-path="image-segmentation.html"><a href="image-segmentation.html#segment-cell-nuclei"><i class="fa fa-check"></i><b>5.4</b> Segment cell nuclei</a></li>
+<li class="chapter" data-level="5.5" data-path="image-segmentation.html"><a href="image-segmentation.html#identify-number-of-cells-per-spot"><i class="fa fa-check"></i><b>5.5</b> Identify number of cells per spot</a></li>
+<li class="chapter" data-level="5.6" data-path="image-segmentation.html"><a href="image-segmentation.html#output-files"><i class="fa fa-check"></i><b>5.6</b> Output files</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="image-segmentation.html"><a href="image-segmentation.html"><i class="fa fa-check"></i><b>6</b> Image segmentation</a>
+<li class="chapter" data-level="6" data-path="loupe-browser.html"><a href="loupe-browser.html"><i class="fa fa-check"></i><b>6</b> Loupe Browser</a>
 <ul>
-<li class="chapter" data-level="6.1" data-path="image-segmentation.html"><a href="image-segmentation.html#overview-1"><i class="fa fa-check"></i><b>6.1</b> Overview</a></li>
-<li class="chapter" data-level="6.2" data-path="image-segmentation.html"><a href="image-segmentation.html#split-histology-images"><i class="fa fa-check"></i><b>6.2</b> Split histology images</a></li>
-<li class="chapter" data-level="6.3" data-path="image-segmentation.html"><a href="image-segmentation.html#file-size-issues"><i class="fa fa-check"></i><b>6.3</b> File size issues</a></li>
-<li class="chapter" data-level="6.4" data-path="image-segmentation.html"><a href="image-segmentation.html#segment-cell-nuclei"><i class="fa fa-check"></i><b>6.4</b> Segment cell nuclei</a></li>
-<li class="chapter" data-level="6.5" data-path="image-segmentation.html"><a href="image-segmentation.html#identify-number-of-cells-per-spot"><i class="fa fa-check"></i><b>6.5</b> Identify number of cells per spot</a></li>
-<li class="chapter" data-level="6.6" data-path="image-segmentation.html"><a href="image-segmentation.html#output-files"><i class="fa fa-check"></i><b>6.6</b> Output files</a></li>
+<li class="chapter" data-level="6.1" data-path="loupe-browser.html"><a href="loupe-browser.html#overview-1"><i class="fa fa-check"></i><b>6.1</b> Overview</a></li>
+<li class="chapter" data-level="6.2" data-path="loupe-browser.html"><a href="loupe-browser.html#automatic-alignment-of-images"><i class="fa fa-check"></i><b>6.2</b> Automatic alignment of images</a></li>
+<li class="chapter" data-level="6.3" data-path="loupe-browser.html"><a href="loupe-browser.html#manual-alignment-of-images"><i class="fa fa-check"></i><b>6.3</b> Manual alignment of images</a></li>
+<li class="chapter" data-level="6.4" data-path="loupe-browser.html"><a href="loupe-browser.html#output-files-for-space-ranger"><i class="fa fa-check"></i><b>6.4</b> Output files for Space Ranger</a></li>
+<li class="chapter" data-level="6.5" data-path="loupe-browser.html"><a href="loupe-browser.html#downstream-analyses-in-loupe-browser"><i class="fa fa-check"></i><b>6.5</b> Downstream analyses in Loupe Browser</a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="space-ranger.html"><a href="space-ranger.html"><i class="fa fa-check"></i><b>7</b> Space Ranger</a>
 <ul>
@@ -296,26 +296,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="image-segmentation" class="section level1" number="6">
-<h1><span class="header-section-number">Chapter 6</span> Image segmentation</h1>
+<div id="image-segmentation" class="section level1" number="5">
+<h1><span class="header-section-number">Chapter 5</span> Image segmentation</h1>
 <p>Draft structure and points to cover (but feel free to change)</p>
-<div id="overview-1" class="section level2" number="6.1">
-<h2><span class="header-section-number">6.1</span> Overview</h2>
+<div id="overview" class="section level2" number="5.1">
+<h2><span class="header-section-number">5.1</span> Overview</h2>
 </div>
-<div id="split-histology-images" class="section level2" number="6.2">
-<h2><span class="header-section-number">6.2</span> Split histology images</h2>
+<div id="split-histology-images" class="section level2" number="5.2">
+<h2><span class="header-section-number">5.2</span> Split histology images</h2>
 </div>
-<div id="file-size-issues" class="section level2" number="6.3">
-<h2><span class="header-section-number">6.3</span> File size issues</h2>
+<div id="file-size-issues" class="section level2" number="5.3">
+<h2><span class="header-section-number">5.3</span> File size issues</h2>
 </div>
-<div id="segment-cell-nuclei" class="section level2" number="6.4">
-<h2><span class="header-section-number">6.4</span> Segment cell nuclei</h2>
+<div id="segment-cell-nuclei" class="section level2" number="5.4">
+<h2><span class="header-section-number">5.4</span> Segment cell nuclei</h2>
 </div>
-<div id="identify-number-of-cells-per-spot" class="section level2" number="6.5">
-<h2><span class="header-section-number">6.5</span> Identify number of cells per spot</h2>
+<div id="identify-number-of-cells-per-spot" class="section level2" number="5.5">
+<h2><span class="header-section-number">5.5</span> Identify number of cells per spot</h2>
 </div>
-<div id="output-files" class="section level2" number="6.6">
-<h2><span class="header-section-number">6.6</span> Output files</h2>
+<div id="output-files" class="section level2" number="5.6">
+<h2><span class="header-section-number">5.6</span> Output files</h2>
 
 </div>
 </div>
@@ -324,8 +324,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="loupe-browser.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="space-ranger.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="preprocessing-steps.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="loupe-browser.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

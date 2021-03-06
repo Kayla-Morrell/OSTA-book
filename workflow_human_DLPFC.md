@@ -407,7 +407,7 @@ library(ggspavis)
 plotSpots(spe, discrete = "label", palette = "libd_layer_colors")
 ```
 
-<img src="workflow_human_DLPFC_files/figure-html/clustering_plots-1.png" width="432" />
+<img src="workflow_human_DLPFC_files/figure-html/clustering_plots_spots-1.png" width="672" />
 
 ```r
 # plot ground truth labels in spatial x-y coordinates
@@ -418,14 +418,15 @@ plotSpots(spe, discrete = "ground_truth", palette = "libd_layer_colors")
 ## Warning: Removed 14 rows containing missing values (geom_point).
 ```
 
-<img src="workflow_human_DLPFC_files/figure-html/clustering_plots-2.png" width="432" />
+<img src="workflow_human_DLPFC_files/figure-html/clustering_plots_spots-2.png" width="672" />
+
 
 ```r
 # plot clusters in UMAP reduced dimensions
 plotDimRed(spe, type = "UMAP", discrete = "label", palette = "libd_layer_colors")
 ```
 
-<img src="workflow_human_DLPFC_files/figure-html/clustering_plots-3.png" width="432" />
+<img src="workflow_human_DLPFC_files/figure-html/clustering_plots_reduced-1.png" width="480" />
 
 
 ## Marker genes

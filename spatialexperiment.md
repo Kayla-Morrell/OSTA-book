@@ -15,7 +15,7 @@ For more details, see our paper [SpatialExperiment: infrastructure for spatially
 
 
 <div class="figure">
-<img src="images/SpatialExperiment.png" alt="Overview of the `SpatialExperiment` object class for storing spatially resolved transcriptomics datasets in the Bioconductor framework." width="716" />
+<img src="images/SpatialExperiment.png" alt="Overview of the `SpatialExperiment` object class for storing spatially resolved transcriptomics datasets in the Bioconductor framework." width="50%" />
 <p class="caption">(\#fig:spe-schematic)Overview of the `SpatialExperiment` object class for storing spatially resolved transcriptomics datasets in the Bioconductor framework.</p>
 </div>
 

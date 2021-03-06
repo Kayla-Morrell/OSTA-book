@@ -13,89 +13,65 @@ In the spatial context, we may be interested in e.g. (i) identifying cell types 
 
 ## Previous steps
 
-*Code to run steps from the previous chapters, to generate the `SpatialExperiment` object required for this chapter.*
+*Code to run steps from the previous chapters, to generate the `SpatialExperiment` object required for this chapter. For more details on each step, see the previous chapters.*
 
 
-```{.r .fold-hide}
-# ---------
-# load data
-# ---------
+```r
+# LOAD DATA
 
 library(SpatialExperiment)
 library(STexampleData)
-
 spe <- load_data("Visium_humanDLPFC")
 
-# --------------------
-# quality control (QC)
-# --------------------
+# QUALITY CONTROL (QC)
 
 library(scater)
-
 # subset to keep only spots over tissue
 spe <- spe[, spatialData(spe)$in_tissue == 1]
-
 # identify mitochondrial genes
 is_mito <- grepl("(^MT-)|(^mt-)", rowData(spe)$gene_name)
-
-# calculate per-spot QC metrics and store in colData
+# calculate per-spot QC metrics
 spe <- addPerCellQC(spe, subsets = list(mito = is_mito))
-
 # select QC thresholds
 qc_lib_size <- colData(spe)$sum < 500
 qc_detected <- colData(spe)$detected < 250
 qc_mito <- colData(spe)$subsets_mito_percent > 30
 qc_cell_count <- colData(spe)$cell_count > 12
-
 # combined set of discarded spots
 discard <- qc_lib_size | qc_detected | qc_mito | qc_cell_count
 colData(spe)$discard <- discard
-
 # filter low-quality spots
 spe <- spe[, !colData(spe)$discard]
 
-# -------------
-# normalization
-# -------------
+# NORMALIZATION
 
 library(scran)
-
 # quick clustering for pool-based size factors
 set.seed(123)
 qclus <- quickCluster(spe)
-
-# calculate size factors and store in object
+# calculate size factors
 spe <- computeSumFactors(spe, cluster = qclus)
-
-# calculate logcounts (log-transformed normalized counts) and store in object
+# calculate logcounts (log-transformed normalized counts)
 spe <- logNormCounts(spe)
 
-# -----------------
-# feature selection
-# -----------------
+# FEATURE SELECTION
 
 # remove mitochondrial genes
 spe <- spe[!is_mito, ]
-
 # fit mean-variance relationship
 dec <- modelGeneVar(spe)
-
 # select top HVGs
 top_hvgs <- getTopHVGs(dec, prop = 0.1)
 
-# ------------------------
-# dimensionality reduction
-# ------------------------
+# DIMENSIONALITY REDUCTION
 
 # compute PCA
 set.seed(123)
 spe <- runPCA(spe, subset_row = top_hvgs)
-
 # compute UMAP on top 50 PCs
 set.seed(123)
 spe <- runUMAP(spe, dimred = "PCA")
-
-# update column names for plotting functions
+# update column names
 colnames(reducedDim(spe, "UMAP")) <- paste0("UMAP", 1:2)
 ```
 
@@ -144,7 +120,7 @@ library(ggspavis)
 plotSpots(spe, discrete = "label", palette = "libd_layer_colors")
 ```
 
-<img src="clustering_files/figure-html/clustering_plots-1.png" width="432" />
+<img src="clustering_files/figure-html/clustering_plots_spots-1.png" width="672" />
 
 ```r
 # plot ground truth labels in spatial x-y coordinates
@@ -155,21 +131,22 @@ plotSpots(spe, discrete = "ground_truth", palette = "libd_layer_colors")
 ## Warning: Removed 14 rows containing missing values (geom_point).
 ```
 
-<img src="clustering_files/figure-html/clustering_plots-2.png" width="432" />
+<img src="clustering_files/figure-html/clustering_plots_spots-2.png" width="672" />
+
 
 ```r
 # plot clusters in PCA reduced dimensions
 plotDimRed(spe, type = "PCA", discrete = "label", palette = "libd_layer_colors")
 ```
 
-<img src="clustering_files/figure-html/clustering_plots-3.png" width="432" />
+<img src="clustering_files/figure-html/clustering_plots_reduced-1.png" width="480" />
 
 ```r
 # plot clusters in UMAP reduced dimensions
 plotDimRed(spe, type = "UMAP", discrete = "label", palette = "libd_layer_colors")
 ```
 
-<img src="clustering_files/figure-html/clustering_plots-4.png" width="432" />
+<img src="clustering_files/figure-html/clustering_plots_reduced-2.png" width="480" />
 
 
 
