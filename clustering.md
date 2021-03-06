@@ -16,7 +16,7 @@ In the spatial context, we may be interested in e.g. (i) identifying cell types 
 *Code to run steps from the previous chapters, to generate the `SpatialExperiment` object required for this chapter.*
 
 
-```r
+```{.r .fold-hide}
 # ---------
 # load data
 # ---------

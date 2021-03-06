@@ -12,7 +12,7 @@ Chapter on feature selection, including standard single-cell methods as well as 
 *Code to run steps from the previous chapters, to generate the `SpatialExperiment` object required for this chapter.*
 
 
-```r
+```{.r .fold-hide}
 # ---------
 # load data
 # ---------
