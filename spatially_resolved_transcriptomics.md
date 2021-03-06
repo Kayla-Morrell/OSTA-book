@@ -11,8 +11,8 @@ The dimensions of the tissue slide are approximately 6.5mm by 6.5mm, and contain
 
 
 <div class="figure">
-<img src="images/Visium.png" alt="Schematic of 10x Genomics Visium platform. Image source: 10x Genomics Visium website: https://www.10xgenomics.com/spatial-transcriptomics/" width="574" />
-<p class="caption">(\#fig:Visium-schematic)Schematic of 10x Genomics Visium platform. Image source: 10x Genomics Visium website: https://www.10xgenomics.com/spatial-transcriptomics/</p>
+<img src="images/Visium.png" alt="Schematic of 10x Genomics Visium platform. Image source: [10x Genomics Visium website](https://www.10xgenomics.com/spatial-transcriptomics/)" width="574" />
+<p class="caption">(\#fig:Visium-schematic)Schematic of 10x Genomics Visium platform. Image source: [10x Genomics Visium website](https://www.10xgenomics.com/spatial-transcriptomics/)</p>
 </div>
 
 

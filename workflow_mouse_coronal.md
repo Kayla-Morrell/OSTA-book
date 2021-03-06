@@ -428,14 +428,14 @@ colors <- unname(palette.colors(palette = "Polychrome 36"))
 plotSpots(spe, discrete = "label", palette = colors)
 ```
 
-<img src="workflow_mouse_coronal_files/figure-html/clustering_plots-1.png" width="672" />
+<img src="workflow_mouse_coronal_files/figure-html/clustering_plots-1.png" width="432" />
 
 ```r
 # plot clusters in UMAP dimensions
 plotDimRed(spe, type = "UMAP", discrete = "label", palette = colors)
 ```
 
-<img src="workflow_mouse_coronal_files/figure-html/clustering_plots-2.png" width="672" />
+<img src="workflow_mouse_coronal_files/figure-html/clustering_plots-2.png" width="432" />
 
 
 ## Marker genes

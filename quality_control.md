@@ -170,7 +170,7 @@ plotQCscatter(spe,
               threshold_y = 500, marginal = TRUE)
 ```
 
-<img src="quality_control_files/figure-html/plot_lib_size_scatter-1.png" width="672" />
+<img src="quality_control_files/figure-html/plot_lib_size_scatter-1.png" width="360" />
 
 The plot shows that setting a filtering threshold for library size (e.g. at the value shown) does not appear to select for any obvious biologically consistent group of spots.
 
@@ -260,7 +260,7 @@ plotQCscatter(spe,
 ## `geom_smooth()` using formula 'y ~ x'
 ```
 
-<img src="quality_control_files/figure-html/plot_detected_scatter-1.png" width="672" />
+<img src="quality_control_files/figure-html/plot_detected_scatter-1.png" width="360" />
 
 Based on the plots, we select a threshold of 250 expressed genes per spot.
 
@@ -330,7 +330,7 @@ plotQCscatter(spe,
 ## `geom_smooth()` using formula 'y ~ x'
 ```
 
-<img src="quality_control_files/figure-html/plot_mito_scatter-1.png" width="672" />
+<img src="quality_control_files/figure-html/plot_mito_scatter-1.png" width="360" />
 
 We select a threshold of 30% for the mitochondrial read proportion.
 
@@ -407,7 +407,7 @@ plotQCscatter(spe,
 ## `geom_smooth()` using formula 'y ~ x'
 ```
 
-<img src="quality_control_files/figure-html/plot_cell_count_scatter-1.png" width="672" />
+<img src="quality_control_files/figure-html/plot_cell_count_scatter-1.png" width="360" />
 
 In particular, we see that the spots with very high cell counts also have low numbers of expressed genes. This indicates that the experiments have failed for these spots, and they should be removed.
 

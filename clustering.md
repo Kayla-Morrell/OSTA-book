@@ -144,7 +144,7 @@ library(ggspavis)
 plotSpots(spe, discrete = "label", palette = "libd_layer_colors")
 ```
 
-<img src="clustering_files/figure-html/clustering_plots-1.png" width="672" />
+<img src="clustering_files/figure-html/clustering_plots-1.png" width="432" />
 
 ```r
 # plot ground truth labels in spatial x-y coordinates
@@ -155,21 +155,21 @@ plotSpots(spe, discrete = "ground_truth", palette = "libd_layer_colors")
 ## Warning: Removed 14 rows containing missing values (geom_point).
 ```
 
-<img src="clustering_files/figure-html/clustering_plots-2.png" width="672" />
+<img src="clustering_files/figure-html/clustering_plots-2.png" width="432" />
 
 ```r
 # plot clusters in PCA reduced dimensions
 plotDimRed(spe, type = "PCA", discrete = "label", palette = "libd_layer_colors")
 ```
 
-<img src="clustering_files/figure-html/clustering_plots-3.png" width="672" />
+<img src="clustering_files/figure-html/clustering_plots-3.png" width="432" />
 
 ```r
 # plot clusters in UMAP reduced dimensions
 plotDimRed(spe, type = "UMAP", discrete = "label", palette = "libd_layer_colors")
 ```
 
-<img src="clustering_files/figure-html/clustering_plots-4.png" width="672" />
+<img src="clustering_files/figure-html/clustering_plots-4.png" width="432" />
 
 
 

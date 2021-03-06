@@ -157,13 +157,13 @@ library(ggspavis)
 plotDimRed(spe, type = "PCA")
 ```
 
-<img src="dimensionality_reduction_files/figure-html/reduced_dim_plots-1.png" width="672" />
+<img src="dimensionality_reduction_files/figure-html/reduced_dim_plots-1.png" width="360" />
 
 ```r
 # plot top 2 UMAP dimensions
 plotDimRed(spe, type = "UMAP")
 ```
 
-<img src="dimensionality_reduction_files/figure-html/reduced_dim_plots-2.png" width="672" />
+<img src="dimensionality_reduction_files/figure-html/reduced_dim_plots-2.png" width="360" />
 
 
