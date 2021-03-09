@@ -1,4 +1,4 @@
-# Loupe Browser
+# Loupe Browser (Visium)
 
 Draft structure and points to cover (but feel free to change)
 

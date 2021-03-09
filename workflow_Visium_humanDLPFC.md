@@ -1,4 +1,4 @@
-# Human DLPFC workflow
+# Visium human DLPFC workflow
 
 This workflow analyzes one sample of human brain from the dorsolateral prefrontal cortex (DLPFC) region, measured using the 10x Genomics Visium platform. This is a condensed version of the analyses shown in the individual analysis chapters in the previous part. For more details on any of the individual steps, see the previous chapters.
 
@@ -62,7 +62,7 @@ library(ggspavis)
 plotSpots(spe)
 ```
 
-<img src="workflow_human_DLPFC_files/figure-html/plot_data-1.png" width="672" />
+<img src="workflow_Visium_humanDLPFC_files/figure-html/plot_data-1.png" width="672" />
 
 
 ## Quality control (QC)
@@ -155,7 +155,7 @@ hist(colData(spe)$subsets_mito_percent, xlab = "percent mitochondrial", main = "
 hist(colData(spe)$cell_count, xlab = "number of cells", main = "No. cells per spot")
 ```
 
-<img src="workflow_human_DLPFC_files/figure-html/QC_thresholds-1.png" width="672" />
+<img src="workflow_Visium_humanDLPFC_files/figure-html/QC_thresholds-1.png" width="672" />
 
 ```r
 par(mfrow = c(1, 1))
@@ -205,7 +205,7 @@ library(spatzli)
 plotQCspots(spe, discard = "discard")
 ```
 
-<img src="workflow_human_DLPFC_files/figure-html/QC_check-1.png" width="672" />
+<img src="workflow_Visium_humanDLPFC_files/figure-html/QC_check-1.png" width="672" />
 
 
 There is some concentration of discarded spots at the edge of the tissue region, which may be due to tissue damage. Importantly, the discarded spots do not correspond to any of the cortical layers of interest.
@@ -260,7 +260,7 @@ summary(sizeFactors(spe))
 hist(sizeFactors(spe), breaks = 20)
 ```
 
-<img src="workflow_human_DLPFC_files/figure-html/normalization-1.png" width="672" />
+<img src="workflow_Visium_humanDLPFC_files/figure-html/normalization-1.png" width="672" />
 
 ```r
 # calculate logcounts (log-transformed normalized counts) and store in object
@@ -301,7 +301,7 @@ plot(fit$mean, fit$var,
 curve(fit$trend(x), col = "dodgerblue", add = TRUE, lwd = 2)
 ```
 
-<img src="workflow_human_DLPFC_files/figure-html/feature_selection_HVGs-1.png" width="672" />
+<img src="workflow_Visium_humanDLPFC_files/figure-html/feature_selection_HVGs-1.png" width="672" />
 
 ```r
 # select top HVGs
@@ -407,7 +407,7 @@ library(ggspavis)
 plotSpots(spe, discrete = "label", palette = "libd_layer_colors")
 ```
 
-<img src="workflow_human_DLPFC_files/figure-html/clustering_plots_spots-1.png" width="672" />
+<img src="workflow_Visium_humanDLPFC_files/figure-html/clustering_plots_spots-1.png" width="672" />
 
 ```r
 # plot ground truth labels in spatial x-y coordinates
@@ -418,7 +418,7 @@ plotSpots(spe, discrete = "ground_truth", palette = "libd_layer_colors")
 ## Warning: Removed 14 rows containing missing values (geom_point).
 ```
 
-<img src="workflow_human_DLPFC_files/figure-html/clustering_plots_spots-2.png" width="672" />
+<img src="workflow_Visium_humanDLPFC_files/figure-html/clustering_plots_spots-2.png" width="672" />
 
 
 ```r
@@ -426,7 +426,7 @@ plotSpots(spe, discrete = "ground_truth", palette = "libd_layer_colors")
 plotDimRed(spe, type = "UMAP", discrete = "label", palette = "libd_layer_colors")
 ```
 
-<img src="workflow_human_DLPFC_files/figure-html/clustering_plots_reduced-1.png" width="480" />
+<img src="workflow_Visium_humanDLPFC_files/figure-html/clustering_plots_reduced-1.png" width="480" />
 
 
 ## Marker genes
@@ -463,7 +463,7 @@ logFCs <- getMarkerEffects(best_set)
 pheatmap(logFCs, breaks = seq(-5, 5, length.out = 101))
 ```
 
-<img src="workflow_human_DLPFC_files/figure-html/marker_genes_heatmap-1.png" width="480" />
+<img src="workflow_Visium_humanDLPFC_files/figure-html/marker_genes_heatmap-1.png" width="480" />
 
 
 ```r
@@ -473,6 +473,6 @@ top_genes <- head(rownames(interesting))
 plotExpression(spe, x = "label", features = top_genes)
 ```
 
-<img src="workflow_human_DLPFC_files/figure-html/marker_genes_expression-1.png" width="672" />
+<img src="workflow_Visium_humanDLPFC_files/figure-html/marker_genes_expression-1.png" width="672" />
 
 
