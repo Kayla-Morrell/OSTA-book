@@ -1,5 +1,5 @@
-# seqFISH workflow
+# Cartana workflow
 
-seqFISH workflow
+Cartana workflow using publicly available dataset
 
 
