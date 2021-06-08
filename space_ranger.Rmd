@@ -1,9 +1,6 @@
 # Space Ranger (Visium)
 
 
-Draft structure and points to cover (but feel free to change)
-
-
 ## Overview
 
 
@@ -23,5 +20,4 @@ Draft structure and points to cover (but feel free to change)
 
 
 ## Import outputs into R
-
 
