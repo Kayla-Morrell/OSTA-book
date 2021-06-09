@@ -1,5 +1,4 @@
 # Visium spatialLIBD workflow
 
-Visium workflow using `spatialLIBD` package
-
+Workflow using dataset loaded from [spatialLIBD](http://bioconductor.org/packages/spatialLIBD) package, highlighting additional features not shown in [Visium human DLPFC workflow] chapter.
 

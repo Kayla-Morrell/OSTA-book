@@ -20,7 +20,7 @@ library(SpatialExperiment)
 library(STexampleData)
 
 # load object
-spe <- load_data("Visium_mouseCoronal")
+spe <- Visium_mouseCoronal()
 spe
 ```
 
@@ -34,12 +34,12 @@ spe
 ## rowData names(3): gene_id gene_name feature_type
 ## colnames(4992): AAACAACGAATAGTTC-1 AAACAAGTATCTCCCA-1 ...
 ##   TTGTTTGTATTACACG-1 TTGTTTGTGTAAATTC-1
-## colData names(6): barcode_id sample_id ... pxl_col_in_fullres
-##   pxl_row_in_fullres
+## colData names(3): sample_id pxl_col_in_fullres pxl_row_in_fullres
 ## reducedDimNames(0):
 ## mainExpName: NULL
 ## altExpNames(0):
-## spatialData names(4) : barcode_id in_tissue x y
+## spatialData names(6) : barcode_id in_tissue ... x y
+## spatialCoords names(2) : x y
 ## imgData names(4): sample_id image_id data scaleFactor
 ```
 
@@ -53,7 +53,10 @@ We use visualization functions from the [ggspavis](https://github.com/lmweber/gg
 
 ```r
 library(ggspavis)
+```
 
+
+```r
 # plot spatial coordinates (spots)
 plotSpots(spe)
 ```
@@ -76,13 +79,15 @@ dim(spe)
 ## [1] 32285  2702
 ```
 
-
 Calculate spot-level QC metrics using the `scater` package [@McCarthy2017], and store the QC metrics in `colData`.
 
 
 ```r
 library(scater)
+```
 
+
+```r
 # identify mitochondrial genes
 is_mito <- grepl("(^MT-)|(^mt-)", rowData(spe)$gene_name)
 table(is_mito)
@@ -110,29 +115,38 @@ head(colData(spe), 3)
 ```
 
 ```
-## DataFrame with 3 rows and 12 columns
-##                            barcode_id   sample_id array_row array_col
-##                           <character> <character> <integer> <integer>
-## AAACAAGTATCTCCCA-1 AAACAAGTATCTCCCA-1   sample_01        50       102
-## AAACAATCTACTAGCA-1 AAACAATCTACTAGCA-1   sample_01         3        43
-## AAACACCAATAACTGC-1 AAACACCAATAACTGC-1   sample_01        59        19
-##                    pxl_col_in_fullres pxl_row_in_fullres       sum  detected
-##                             <integer>          <integer> <numeric> <numeric>
-## AAACAAGTATCTCCCA-1               7237               8229     20935      5230
-## AAACAATCTACTAGCA-1               1611               4169     14789      3646
-## AAACACCAATAACTGC-1               8315               2518     34646      6272
-##                    subsets_mito_sum subsets_mito_detected subsets_mito_percent
-##                           <numeric>             <numeric>            <numeric>
-## AAACAAGTATCTCCCA-1             4036                    13              19.2787
-## AAACAATCTACTAGCA-1             3419                    13              23.1185
-## AAACACCAATAACTGC-1             5068                    13              14.6280
-##                        total
-##                    <numeric>
-## AAACAAGTATCTCCCA-1     20935
-## AAACAATCTACTAGCA-1     14789
-## AAACACCAATAACTGC-1     34646
+## DataFrame with 3 rows and 21 columns
+##                      sample_id pxl_col_in_fullres pxl_row_in_fullres
+##                    <character>          <integer>          <integer>
+## AAACAAGTATCTCCCA-1    sample01               7237               8229
+## AAACAATCTACTAGCA-1    sample01               1611               4169
+## AAACACCAATAACTGC-1    sample01               8315               2518
+##                            barcode_id in_tissue array_col array_row         x
+##                           <character> <integer> <integer> <integer> <integer>
+## AAACAAGTATCTCCCA-1 AAACAAGTATCTCCCA-1         1        50       102      7237
+## AAACAATCTACTAGCA-1 AAACAATCTACTAGCA-1         1         3        43      1611
+## AAACACCAATAACTGC-1 AAACACCAATAACTGC-1         1        59        19      8315
+##                            y       sum  detected subsets_mito_sum
+##                    <integer> <numeric> <numeric>        <numeric>
+## AAACAAGTATCTCCCA-1      8229     20935      5230             4036
+## AAACAATCTACTAGCA-1      4169     14789      3646             3419
+## AAACACCAATAACTGC-1      2518     34646      6272             5068
+##                    subsets_mito_detected subsets_mito_percent     total
+##                                <numeric>            <numeric> <numeric>
+## AAACAAGTATCTCCCA-1                    13              19.2787     20935
+## AAACAATCTACTAGCA-1                    13              23.1185     14789
+## AAACACCAATAACTGC-1                    13              14.6280     34646
+##                            barcode_id in_tissue array_col array_row         x
+##                           <character> <integer> <integer> <integer> <integer>
+## AAACAAGTATCTCCCA-1 AAACAAGTATCTCCCA-1         1        50       102      7237
+## AAACAATCTACTAGCA-1 AAACAATCTACTAGCA-1         1         3        43      1611
+## AAACACCAATAACTGC-1 AAACACCAATAACTGC-1         1        59        19      8315
+##                            y
+##                    <integer>
+## AAACAAGTATCTCCCA-1      8229
+## AAACAATCTACTAGCA-1      4169
+## AAACACCAATAACTGC-1      2518
 ```
-
 
 Select filtering thresholds for the QC metrics by examining distributions using histograms.
 
@@ -181,21 +195,15 @@ table(discard)
 colData(spe)$discard <- discard
 ```
 
-
 Plot discarded spots in x-y coordinates on the tissue slide to check if there is any biologically meaningful spatial pattern. This would be problematic, since it would mean we are removing biologically informative spots.
-
-We use QC visualization functions from the [spatzli](https://github.com/lmweber/spatzli) package to generate plots.
 
 
 ```r
-library(spatzli)
-
 # check spatial pattern of discarded spots
-plotQCspots(spe, discard = "discard")
+plotQC(spe, type = "spots", discard = "discard")
 ```
 
 <img src="workflow_Visium_mouseCoronal_files/figure-html/QC_check-1.png" width="672" />
-
 
 There is one small region with some concentrated discarded spots at the top-left. However, this does not appear to correspond to any specific known anatomical region of interest. We assume that these are low-quality spots, and filtering them out will not cause problems in the biological interpretation.
 
@@ -220,7 +228,10 @@ Next, we calculate log-transformed normalized counts, using pool-based size fact
 
 ```r
 library(scran)
+```
 
+
+```r
 # quick clustering for pool-based size factors
 set.seed(123)
 qclus <- quickCluster(spe)
@@ -302,7 +313,6 @@ length(top_hvgs)
 ## [1] 1216
 ```
 
-
 Note there are a few extremely highly expressed genes, which influence the fitted mean-variance relationship. We check the names of these genes to decide whether they should be removed as outliers.
 
 
@@ -381,7 +391,7 @@ dim(reducedDim(spe, "UMAP"))
 ```
 
 ```r
-# update column names for plotting functions
+# update column names for easier plotting
 colnames(reducedDim(spe, "UMAP")) <- paste0("UMAP", 1:2)
 ```
 
@@ -414,18 +424,16 @@ table(clus)
 colLabels(spe) <- factor(clus)
 ```
 
-
-Visualize the clusters by plotting in (i) spatial x-y coordinates on the tissue slide, and (ii) UMAP dimensions. We use plotting functions from the [ggspavis](https://github.com/lmweber/ggpavis) package.
+Visualize the clusters by plotting in (i) spatial (x-y) coordinates on the tissue slide, and (ii) UMAP dimensions.
 
 
 ```r
-library(ggspavis)
-
 # define custom color palette
 colors <- unname(palette.colors(palette = "Polychrome 36"))
 
 # plot clusters in spatial x-y coordinates
-plotSpots(spe, discrete = "label", palette = colors)
+plotSpots(spe, annotate = "label", 
+          palette = colors)
 ```
 
 <img src="workflow_Visium_mouseCoronal_files/figure-html/clustering_plots_spots-1.png" width="672" />
@@ -433,7 +441,8 @@ plotSpots(spe, discrete = "label", palette = colors)
 
 ```r
 # plot clusters in UMAP dimensions
-plotDimRed(spe, type = "UMAP", discrete = "label", palette = colors)
+plotDimRed(spe, type = "UMAP", 
+           annotate = "label", palette = colors)
 ```
 
 <img src="workflow_Visium_mouseCoronal_files/figure-html/clustering_plots_reduced-1.png" width="480" />
@@ -445,7 +454,7 @@ Identify marker genes by testing for differential gene expression between cluste
 
 
 ```r
-# set gene names as row names for visualization purposes
+# set gene names as row names for easier plotting
 rownames(spe) <- rowData(spe)$gene_name
 
 # test for marker genes
@@ -463,7 +472,10 @@ markers
 
 ```r
 library(pheatmap)
+```
 
+
+```r
 # plot log-fold changes for one cluster over all other clusters
 # selecting cluster 5
 interesting <- markers[[5]]
@@ -484,5 +496,4 @@ plotExpression(spe, x = "label", features = top_genes)
 ```
 
 <img src="workflow_Visium_mouseCoronal_files/figure-html/marker_genes_expression-1.png" width="672" />
-
 

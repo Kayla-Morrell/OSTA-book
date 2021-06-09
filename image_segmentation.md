@@ -1,7 +1,5 @@
 # Image segmentation (Visium)
 
-Draft structure and points to cover (but feel free to change)
-
 
 ## Overview
 
@@ -19,5 +17,4 @@ Draft structure and points to cover (but feel free to change)
 
 
 ## Output files
-
 

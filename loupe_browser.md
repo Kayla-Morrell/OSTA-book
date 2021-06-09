@@ -1,7 +1,5 @@
 # Loupe Browser (Visium)
 
-Draft structure and points to cover (but feel free to change)
-
 
 ## Overview
 
@@ -16,5 +14,4 @@ Draft structure and points to cover (but feel free to change)
 
 
 ## Downstream analyses in Loupe Browser
-
 

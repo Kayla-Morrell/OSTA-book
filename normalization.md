@@ -1,15 +1,13 @@
 # Normalization
 
-
 ## Background
 
-Details on normalization in single-cell and spatial data.
-
+Here we apply normalization methods developed for scRNA-seq data, treating each spot as equivalent to one cell.
 
 
 ## Previous steps
 
-*Code to run steps from the previous chapters, to generate the `SpatialExperiment` object required for this chapter. For more details on each step, see the previous chapters.*
+*Code to run steps from the previous chapters to generate the `SpatialExperiment` object required for this chapter.*
 
 
 ```r
@@ -17,7 +15,7 @@ Details on normalization in single-cell and spatial data.
 
 library(SpatialExperiment)
 library(STexampleData)
-spe <- load_data("Visium_humanDLPFC")
+spe <- Visium_humanDLPFC()
 
 # QUALITY CONTROL (QC)
 
@@ -39,7 +37,6 @@ colData(spe)$discard <- discard
 # filter low-quality spots
 spe <- spe[, !colData(spe)$discard]
 ```
-
 
 
 ## Log-transformed normalized counts
@@ -111,5 +108,4 @@ dim(logcounts(spe))
 ```
 ## [1] 33538  3582
 ```
-
 

@@ -1,15 +1,13 @@
 # Marker genes
 
-
 ## Background
 
-Chapter on identifying marker genes for clusters by differential gene expression testing.
-
+In this chapter, we identify marker genes for each cluster by testing for differential expression between clusters.
 
 
 ## Previous steps
 
-*Code to run steps from the previous chapters, to generate the `SpatialExperiment` object required for this chapter. For more details on each step, see the previous chapters.*
+*Code to run steps from the previous chapters to generate the `SpatialExperiment` object required for this chapter.*
 
 
 ```r
@@ -17,7 +15,7 @@ Chapter on identifying marker genes for clusters by differential gene expression
 
 library(SpatialExperiment)
 library(STexampleData)
-spe <- load_data("Visium_humanDLPFC")
+spe <- Visium_humanDLPFC()
 
 # QUALITY CONTROL (QC)
 
@@ -82,7 +80,6 @@ colLabels(spe) <- factor(clus)
 ```
 
 
-
 ## Marker genes
 
 Identify marker genes by testing for differential gene expression between clusters.
@@ -90,11 +87,15 @@ Identify marker genes by testing for differential gene expression between cluste
 We use the `findMarkers` implementation in `scran` [@Lun2016], using a binomial test, which tests for genes that differ in the proportion expressed vs. not expressed between clusters. This is a more stringent test than the default t-tests, and tends to select genes that are easier to interpret and validate experimentally.
 
 
-
 ```r
 library(scran)
+library(scater)
+library(pheatmap)
+```
 
-# set gene names as row names for visualization purposes
+
+```r
+# set gene names as row names for easier plotting
 rownames(spe) <- rowData(spe)$gene_name
 
 # test for marker genes
@@ -110,10 +111,7 @@ markers
 ```
 
 
-
 ```r
-library(pheatmap)
-
 # plot log-fold changes for one cluster over all other clusters
 # selecting cluster 1
 interesting <- markers[[1]]
@@ -126,10 +124,7 @@ pheatmap(logFCs, breaks = seq(-5, 5, length.out = 101))
 <img src="marker_genes_files/figure-html/marker_genes_heatmap-1.png" width="480" />
 
 
-
 ```r
-library(scater)
-
 # plot log-transformed normalized expression of top genes for one cluster
 top_genes <- head(rownames(interesting))
 
@@ -137,5 +132,4 @@ plotExpression(spe, x = "label", features = top_genes)
 ```
 
 <img src="marker_genes_files/figure-html/marker_genes_expression-1.png" width="672" />
-
 

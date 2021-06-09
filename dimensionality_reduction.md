@@ -1,15 +1,13 @@
 # Dimensionality reduction
 
-
 ## Background
 
-Chapter on dimensionality reduction
-
+In this chapter, we apply dimensionality reduction methods to visualize the data and to generate inputs for further downstream analyses.
 
 
 ## Previous steps
 
-*Code to run steps from the previous chapters, to generate the `SpatialExperiment` object required for this chapter. For more details on each step, see the previous chapters.*
+*Code to run steps from the previous chapters to generate the `SpatialExperiment` object required for this chapter.*
 
 
 ```r
@@ -17,7 +15,7 @@ Chapter on dimensionality reduction
 
 library(SpatialExperiment)
 library(STexampleData)
-spe <- load_data("Visium_humanDLPFC")
+spe <- Visium_humanDLPFC()
 
 # QUALITY CONTROL (QC)
 
@@ -61,7 +59,6 @@ top_hvgs <- getTopHVGs(dec, prop = 0.1)
 ```
 
 
-
 ## Principal component analysis (PCA)
 
 Apply principal component analysis (PCA) to the set of top highly variable genes (HVGs) to reduce the dimensionality of the dataset, and retain the top 50 principal components (PCs) for further downstream analyses.
@@ -92,7 +89,6 @@ dim(reducedDim(spe, "PCA"))
 ```
 
 
-
 ## Uniform Manifold Approximation and Projection (UMAP)
 
 We also run UMAP [@McInnes2018] on the set of top 50 PCs and retain the top 2 UMAP components, which will be used for visualization purposes.
@@ -119,10 +115,9 @@ dim(reducedDim(spe, "UMAP"))
 ```
 
 ```r
-# update column names for plotting functions
+# update column names for easier plotting
 colnames(reducedDim(spe, "UMAP")) <- paste0("UMAP", 1:2)
 ```
-
 
 
 ## Visualizations
@@ -132,7 +127,10 @@ Generate plots using plotting functions from the [ggspavis](https://github.com/l
 
 ```r
 library(ggspavis)
+```
 
+
+```r
 # plot top 2 PCA dimensions
 plotDimRed(spe, type = "PCA")
 ```
@@ -145,5 +143,4 @@ plotDimRed(spe, type = "UMAP")
 ```
 
 <img src="dimensionality_reduction_files/figure-html/reduced_dim_plots-2.png" width="408" />
-
 

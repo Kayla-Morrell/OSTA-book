@@ -1,5 +1,0 @@
-# seqFISH workflow
-
-seqFISH workflow
-
-

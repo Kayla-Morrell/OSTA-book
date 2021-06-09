@@ -1,6 +1,5 @@
 # Quality control
 
-
 ## Background
 
 Quality control (QC) procedures at the spot level aim to remove low-quality spots before further analysis. Low-quality spots can occur due to problems during library preparation or other experimental procedures. Examples include large proportions of dead cells due to cell damage during library preparation, and low mRNA capture efficiency due to inefficient reverse transcription or PCR amplification.
@@ -22,7 +21,6 @@ Low library size or low number of expressed features can indicate poor mRNA capt
 The first three characteristics listed above are also used for QC in scRNA-seq data. However, the expected distributions for high-quality spots are different (compared to high-quality cells in scRNA-seq), since spots may contain zero, one, or multiple cells.
 
 
-
 ## Load data
 
 
@@ -31,9 +29,8 @@ library(SpatialExperiment)
 library(STexampleData)
 
 # load object
-spe <- load_data("Visium_humanDLPFC")
+spe <- Visium_humanDLPFC()
 ```
-
 
 
 ## Plot data
@@ -45,13 +42,15 @@ We use visualization functions from the [ggspavis](https://github.com/lmweber/gg
 
 ```r
 library(ggspavis)
+```
 
+
+```r
 # plot spatial coordinates (spots)
 plotSpots(spe)
 ```
 
 <img src="quality_control_files/figure-html/plot_data-1.png" width="672" />
-
 
 
 ## Calculate QC metrics
@@ -61,6 +60,11 @@ We calculate the QC metrics described above with a combination of methods from t
 The QC metrics from `scater` can be calculated and added to the `SpatialExperiment` object as follows. Here, we also identify mitochondrial reads using their gene names, and pass these as an argument to `scater`.
 
 First, we subset the object to keep only spots over tissue. The remaining spots are background spots, which we are not interested in.
+
+
+```r
+library(scater)
+```
 
 
 ```r
@@ -74,10 +78,7 @@ dim(spe)
 ```
 
 
-
 ```r
-library(scater)
-
 # identify mitochondrial genes
 is_mito <- grepl("(^MT-)|(^mt-)", rowData(spe)$gene_name)
 table(is_mito)
@@ -101,38 +102,60 @@ rowData(spe)$gene_name[is_mito]
 ```r
 # calculate per-spot QC metrics and store in colData
 spe <- addPerCellQC(spe, subsets = list(mito = is_mito))
-head(colData(spe), 3)
+head(colData(spe))
 ```
 
 ```
-## DataFrame with 3 rows and 16 columns
-##                            barcode_id  imagerow  imagecol cell_count
-##                           <character> <numeric> <numeric>  <integer>
-## AAACAAGTATCTCCCA-1 AAACAAGTATCTCCCA-1   381.098   440.639          6
-## AAACAATCTACTAGCA-1 AAACAATCTACTAGCA-1   126.328   259.631         16
-## AAACACCAATAACTGC-1 AAACACCAATAACTGC-1   427.768   183.078          5
-##                    ground_truth     sample_id array_row array_col
-##                        <factor>   <character> <integer> <integer>
-## AAACAAGTATCTCCCA-1       Layer3 sample_151673        50       102
-## AAACAATCTACTAGCA-1       Layer1 sample_151673         3        43
-## AAACACCAATAACTGC-1       WM     sample_151673        59        19
-##                    pxl_col_in_fullres pxl_row_in_fullres       sum  detected
-##                             <integer>          <integer> <numeric> <numeric>
-## AAACAAGTATCTCCCA-1               8468               9791      8458      3586
-## AAACAATCTACTAGCA-1               2807               5769      1667      1150
-## AAACACCAATAACTGC-1               9505               4068      3769      1960
+## DataFrame with 6 rows and 23 columns
+##                    cell_count ground_truth     sample_id pxl_col_in_fullres
+##                     <integer>     <factor>   <character>          <integer>
+## AAACAAGTATCTCCCA-1          6       Layer3 sample_151673               8468
+## AAACAATCTACTAGCA-1         16       Layer1 sample_151673               2807
+## AAACACCAATAACTGC-1          5       WM     sample_151673               9505
+## AAACAGAGCGACTCCT-1          2       Layer3 sample_151673               4151
+## AAACAGCTTTCAGAAG-1          4       Layer5 sample_151673               7583
+## AAACAGGGTCTATATT-1          6       Layer6 sample_151673               8064
+##                    pxl_row_in_fullres         barcode_id in_tissue array_col
+##                             <integer>        <character> <integer> <integer>
+## AAACAAGTATCTCCCA-1               9791 AAACAAGTATCTCCCA-1         1        50
+## AAACAATCTACTAGCA-1               5769 AAACAATCTACTAGCA-1         1         3
+## AAACACCAATAACTGC-1               4068 AAACACCAATAACTGC-1         1        59
+## AAACAGAGCGACTCCT-1               9271 AAACAGAGCGACTCCT-1         1        14
+## AAACAGCTTTCAGAAG-1               3393 AAACAGCTTTCAGAAG-1         1        43
+## AAACAGGGTCTATATT-1               3665 AAACAGGGTCTATATT-1         1        47
+##                    array_row         x         y       sum  detected
+##                    <integer> <integer> <integer> <numeric> <numeric>
+## AAACAAGTATCTCCCA-1       102      8468      9791      8458      3586
+## AAACAATCTACTAGCA-1        43      2807      5769      1667      1150
+## AAACACCAATAACTGC-1        19      9505      4068      3769      1960
+## AAACAGAGCGACTCCT-1        94      4151      9271      5433      2424
+## AAACAGCTTTCAGAAG-1         9      7583      3393      4278      2264
+## AAACAGGGTCTATATT-1        13      8064      3665      4004      2178
 ##                    subsets_mito_sum subsets_mito_detected subsets_mito_percent
 ##                           <numeric>             <numeric>            <numeric>
 ## AAACAAGTATCTCCCA-1             1407                    13              16.6351
 ## AAACAATCTACTAGCA-1              204                    11              12.2376
 ## AAACACCAATAACTGC-1              430                    13              11.4089
-##                        total
-##                    <numeric>
-## AAACAAGTATCTCCCA-1      8458
-## AAACAATCTACTAGCA-1      1667
-## AAACACCAATAACTGC-1      3769
+## AAACAGAGCGACTCCT-1             1316                    13              24.2223
+## AAACAGCTTTCAGAAG-1              651                    12              15.2174
+## AAACAGGGTCTATATT-1              621                    13              15.5095
+##                        total         barcode_id in_tissue array_col array_row
+##                    <numeric>        <character> <integer> <integer> <integer>
+## AAACAAGTATCTCCCA-1      8458 AAACAAGTATCTCCCA-1         1        50       102
+## AAACAATCTACTAGCA-1      1667 AAACAATCTACTAGCA-1         1         3        43
+## AAACACCAATAACTGC-1      3769 AAACACCAATAACTGC-1         1        59        19
+## AAACAGAGCGACTCCT-1      5433 AAACAGAGCGACTCCT-1         1        14        94
+## AAACAGCTTTCAGAAG-1      4278 AAACAGCTTTCAGAAG-1         1        43         9
+## AAACAGGGTCTATATT-1      4004 AAACAGGGTCTATATT-1         1        47        13
+##                            x         y
+##                    <integer> <integer>
+## AAACAAGTATCTCCCA-1      8468      9791
+## AAACAATCTACTAGCA-1      2807      5769
+## AAACACCAATAACTGC-1      9505      4068
+## AAACAGAGCGACTCCT-1      4151      9271
+## AAACAGCTTTCAGAAG-1      7583      3393
+## AAACAGGGTCTATATT-1      8064      3665
 ```
-
 
 
 ## Selecting thresholds
@@ -151,23 +174,30 @@ Plot a histogram of the library sizes across spots.
 
 ```r
 # histogram of library sizes
-hist(colData(spe)$sum, breaks = 25)
+hist(colData(spe)$sum, breaks = 20)
 ```
 
 <img src="quality_control_files/figure-html/plot_lib_size_hist-1.png" width="672" />
 
 The distribution is relatively smooth, and there are no obvious issue such as a spike at very low library sizes.
 
-We also plot the library sizes against the number of cells per spot (which was included in the original data object). This is to check that we are not inadvertently removing a biologically meaningful group of spots. The horizontal line (argument `threshold`) shows our first guess at a possible filtering threshold for library size based on the histogram.
+We also plot the library sizes against the number of cells per spot (which is available for this dataset). This is to check that we are not inadvertently removing a biologically meaningful group of spots. The horizontal line (argument `threshold`) shows our first guess at a possible filtering threshold for library size based on the histogram.
 
 
 ```r
-library(spatzli)
-
 # plot library size vs. number of cells per spot
-plotQCscatter(spe, 
-              metric_x = "cell_count", metric_y = "sum", 
-              threshold_y = 500, marginal = TRUE)
+plotQC(spe, type = "scatter", 
+       metric_x = "cell_count", metric_y = "sum", 
+       threshold_y = 500)
+```
+
+```
+## `geom_smooth()` using formula 'y ~ x'
+```
+
+```
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 ```
 
 <img src="quality_control_files/figure-html/plot_lib_size_scatter-1.png" width="360" />
@@ -198,31 +228,32 @@ Finally, we also check that the discarded spots do not have any obvious spatial 
 
 ```r
 # check spatial pattern of discarded spots
-plotQCspots(spe, discard = "qc_lib_size")
+plotQC(spe, type = "spots", 
+       discard = "qc_lib_size")
 ```
 
 <img src="quality_control_files/figure-html/plot_lib_size_spatial-1.png" width="672" />
 
-As an aside, here we can also illustrate what happens if we set the threshold too high. For example, if we set the threshold to 1000 UMI counts per spot -- which would also seem like a reasonable value based on the histogram and scatterplot -- then we see a possible spatial pattern in the discarded spots, matching the cortical layers. This illustrates the importance of interactively checking exploratory visualizations when choosing these thresholds.
+As an aside, here we can also illustrate what happens if we set the threshold too high. For example, if we set the threshold to 2000 UMI counts per spot -- which may also seem like a reasonable value based on the histogram and scatterplot -- then we see a possible spatial pattern in the discarded spots, matching the cortical layers. This illustrates the importance of interactively checking exploratory visualizations when choosing these thresholds.
 
 
 ```r
 # check spatial pattern of discarded spots if threshold is too high
 qc_lib_size_2000 <- colData(spe)$sum < 2000
 colData(spe)$qc_lib_size_2000 <- qc_lib_size_2000
-plotQCspots(spe, discard = "qc_lib_size_2000")
+plotQC(spe, type = "spots", 
+       discard = "qc_lib_size_2000")
 ```
 
 <img src="quality_control_files/figure-html/plot_lib_size_spatial_too_high-1.png" width="672" />
 
-For reference, here are the ground truth (manually annotated) cortical layers in this dataset. We use plotting functions from the [ggspavis](https://github.com/lmweber/ggpavis) package.
+For reference, here are the ground truth (manually annotated) cortical layers in this dataset.
 
 
 ```r
-library(ggspavis)
-
 # plot ground truth (manually annotated) layers
-plotSpots(spe, discrete = "ground_truth", palette = "libd_layer_colors")
+plotSpots(spe, annotate = "ground_truth", 
+          palette = "libd_layer_colors")
 ```
 
 ```
@@ -241,7 +272,7 @@ We use a similar sequence of visualizations to choose a threshold for this QC me
 
 ```r
 # histogram of numbers of expressed genes
-hist(colData(spe)$detected, breaks = 25)
+hist(colData(spe)$detected, breaks = 20)
 ```
 
 <img src="quality_control_files/figure-html/plot_detected_hist-1.png" width="672" />
@@ -249,15 +280,18 @@ hist(colData(spe)$detected, breaks = 25)
 
 ```r
 # plot number of expressed genes vs. number of cells per spot
-plotQCscatter(spe, 
-              metric_x = "cell_count", metric_y = "detected", 
-              threshold_y = 250, marginal = TRUE)
+plotQC(spe, type = "scatter", 
+       metric_x = "cell_count", metric_y = "detected", 
+       threshold_y = 250)
 ```
 
 ```
 ## `geom_smooth()` using formula 'y ~ x'
-## `geom_smooth()` using formula 'y ~ x'
-## `geom_smooth()` using formula 'y ~ x'
+```
+
+```
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 ```
 
 <img src="quality_control_files/figure-html/plot_detected_scatter-1.png" width="360" />
@@ -284,7 +318,8 @@ colData(spe)$qc_detected <- qc_detected
 
 ```r
 # check spatial pattern of discarded spots
-plotQCspots(spe, discard = "qc_detected")
+plotQC(spe, type = "spots", 
+       discard = "qc_detected")
 ```
 
 <img src="quality_control_files/figure-html/plot_detected_spatial-1.png" width="672" />
@@ -296,7 +331,8 @@ Again, we also check what happens when we set the threshold too high.
 # check spatial pattern of discarded spots if threshold is too high
 qc_detected_1000 <- colData(spe)$detected < 1000
 colData(spe)$qc_detected_1000 <- qc_detected_1000
-plotQCspots(spe, discard = "qc_detected_1000")
+plotQC(spe, type = "spots", 
+       discard = "qc_detected_1000")
 ```
 
 <img src="quality_control_files/figure-html/plot_detected_spatial_too_high-1.png" width="672" />
@@ -311,7 +347,7 @@ We investigate the proportions of mitochondrial reads across spots, and select a
 
 ```r
 # histogram of mitochondrial read proportions
-hist(colData(spe)$subsets_mito_percent, breaks = 25)
+hist(colData(spe)$subsets_mito_percent, breaks = 20)
 ```
 
 <img src="quality_control_files/figure-html/plot_mito_hist-1.png" width="672" />
@@ -319,15 +355,18 @@ hist(colData(spe)$subsets_mito_percent, breaks = 25)
 
 ```r
 # plot mitochondrial read proportion vs. number of cells per spot
-plotQCscatter(spe, 
-              metric_x = "cell_count", metric_y = "subsets_mito_percent", 
-              threshold_y = 30, marginal = TRUE)
+plotQC(spe, type = "scatter", 
+       metric_x = "cell_count", metric_y = "subsets_mito_percent", 
+       threshold_y = 30)
 ```
 
 ```
 ## `geom_smooth()` using formula 'y ~ x'
-## `geom_smooth()` using formula 'y ~ x'
-## `geom_smooth()` using formula 'y ~ x'
+```
+
+```
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 ```
 
 <img src="quality_control_files/figure-html/plot_mito_scatter-1.png" width="360" />
@@ -354,7 +393,8 @@ colData(spe)$qc_mito <- qc_mito
 
 ```r
 # check spatial pattern of discarded spots
-plotQCspots(spe, discard = "qc_mito")
+plotQC(spe, type = "spots", 
+       discard = "qc_mito")
 ```
 
 <img src="quality_control_files/figure-html/plot_mito_spatial-1.png" width="672" />
@@ -366,7 +406,8 @@ We also check what happens when we set the threshold too low.
 # check spatial pattern of discarded spots if threshold is too high
 qc_mito_25 <- colData(spe)$subsets_mito_percent > 25
 colData(spe)$qc_mito_25 <- qc_mito_25
-plotQCspots(spe, discard = "qc_mito_25")
+plotQC(spe, type = "spots", 
+       discard = "qc_mito_25")
 ```
 
 <img src="quality_control_files/figure-html/plot_mito_spatial_too_low-1.png" width="672" />
@@ -381,7 +422,7 @@ Here, we check for any outlier values that could indicate problems during cell s
 
 ```r
 # histogram of cell counts
-hist(colData(spe)$cell_count, breaks = 25)
+hist(colData(spe)$cell_count, breaks = 20)
 ```
 
 <img src="quality_control_files/figure-html/plot_cell_count_hist-1.png" width="672" />
@@ -396,15 +437,18 @@ We see a tail of very high values, which could indicate problems for these spots
 
 ```r
 # plot number of expressed genes vs. number of cells per spot
-plotQCscatter(spe, 
-              metric_x = "cell_count", metric_y = "detected", 
-              threshold_x = 12, trend = TRUE, marginal = TRUE)
+plotQC(spe, type = "scatter", 
+       metric_x = "cell_count", metric_y = "detected", 
+       threshold_x = 12)
 ```
 
 ```
 ## `geom_smooth()` using formula 'y ~ x'
-## `geom_smooth()` using formula 'y ~ x'
-## `geom_smooth()` using formula 'y ~ x'
+```
+
+```
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 ```
 
 <img src="quality_control_files/figure-html/plot_cell_count_scatter-1.png" width="360" />
@@ -433,7 +477,8 @@ colData(spe)$qc_cell_count <- qc_cell_count
 
 ```r
 # check spatial pattern of discarded spots
-plotQCspots(spe, discard = "qc_cell_count")
+plotQC(spe, type = "spots", 
+       discard = "qc_cell_count")
 ```
 
 <img src="quality_control_files/figure-html/plot_cell_count_spatial-1.png" width="672" />
@@ -478,7 +523,8 @@ colData(spe)$discard <- discard
 
 ```r
 # check spatial pattern of combined set of discarded spots
-plotQCspots(spe, discard = "discard")
+plotQC(spe, type = "spots", 
+       discard = "discard")
 ```
 
 <img src="quality_control_files/figure-html/plot_discarded_spatial-1.png" width="672" />
@@ -493,7 +539,6 @@ dim(spe)
 ```
 ## [1] 33538  3582
 ```
-
 
 
 ## Zero-cell and single-cell spots
@@ -533,11 +578,9 @@ Only 6% of spots contain a single cell. If we restricted the analysis to these s
 Removing the spots containing zero cells (2% of spots) would also be problematic, since these spots can also contain biologically meaningful information. For example, in this brain dataset, the regions between cell bodies consists of neuropil (dense networks of axons and dendrites). In our paper [@Maynard2021], we explore the information contained in these neuropil spots.
 
 
-
 ## Quality control at gene level
 
 The sections above consider quality control at the spot level. In some datasets, it may also be appropriate to apply quality control procedures or filtering at the gene level. For example, certain genes may be biologically irrelevant for downstream analyses.
 
 However, here we make a distinction between quality control and feature selection. Removing biologically uninteresting genes (such as mitochondrial genes) may also be considered as part of feature selection, since there is no underlying experimental procedure that has failed. Therefore, we will discuss gene-level filtering in the [Feature selection] chapter.
-
 

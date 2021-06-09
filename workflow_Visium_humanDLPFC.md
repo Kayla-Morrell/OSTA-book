@@ -1,6 +1,6 @@
 # Visium human DLPFC workflow
 
-This workflow analyzes one sample of human brain from the dorsolateral prefrontal cortex (DLPFC) region, measured using the 10x Genomics Visium platform. This is a condensed version of the analyses shown in the individual analysis chapters in the previous part. For more details on any of the individual steps, see the previous chapters.
+This workflow analyzes one sample of human brain from the dorsolateral prefrontal cortex (DLPFC) region, measured using the 10x Genomics Visium platform. This is a condensed version of the analyses shown in the individual analysis chapters in the previous part. For more details on the individual steps, see the previous chapters.
 
 
 ## Description of dataset
@@ -24,7 +24,7 @@ library(SpatialExperiment)
 library(STexampleData)
 
 # load object
-spe <- load_data("Visium_humanDLPFC")
+spe <- Visium_humanDLPFC()
 spe
 ```
 
@@ -38,12 +38,13 @@ spe
 ## rowData names(3): gene_id gene_name feature_type
 ## colnames(4992): AAACAACGAATAGTTC-1 AAACAAGTATCTCCCA-1 ...
 ##   TTGTTTGTATTACACG-1 TTGTTTGTGTAAATTC-1
-## colData names(10): barcode_id imagerow ... pxl_col_in_fullres
+## colData names(5): cell_count ground_truth sample_id pxl_col_in_fullres
 ##   pxl_row_in_fullres
 ## reducedDimNames(0):
 ## mainExpName: NULL
 ## altExpNames(0):
-## spatialData names(4) : barcode_id in_tissue x y
+## spatialData names(6) : barcode_id in_tissue ... x y
+## spatialCoords names(2) : x y
 ## imgData names(4): sample_id image_id data scaleFactor
 ```
 
@@ -57,7 +58,10 @@ We use visualization functions from the [ggspavis](https://github.com/lmweber/gg
 
 ```r
 library(ggspavis)
+```
 
+
+```r
 # plot spatial coordinates (spots)
 plotSpots(spe)
 ```
@@ -80,13 +84,15 @@ dim(spe)
 ## [1] 33538  3639
 ```
 
-
 Next, calculate spot-level QC metrics using the `scater` package [@McCarthy2017], and store the QC metrics in `colData`. See [Quality control] for more details, including explanations of the QC metrics.
 
 
 ```r
 library(scater)
+```
 
+
+```r
 # identify mitochondrial genes
 is_mito <- grepl("(^MT-)|(^mt-)", rowData(spe)$gene_name)
 table(is_mito)
@@ -114,34 +120,38 @@ head(colData(spe), 3)
 ```
 
 ```
-## DataFrame with 3 rows and 16 columns
-##                            barcode_id  imagerow  imagecol cell_count
-##                           <character> <numeric> <numeric>  <integer>
-## AAACAAGTATCTCCCA-1 AAACAAGTATCTCCCA-1   381.098   440.639          6
-## AAACAATCTACTAGCA-1 AAACAATCTACTAGCA-1   126.328   259.631         16
-## AAACACCAATAACTGC-1 AAACACCAATAACTGC-1   427.768   183.078          5
-##                    ground_truth     sample_id array_row array_col
-##                        <factor>   <character> <integer> <integer>
-## AAACAAGTATCTCCCA-1       Layer3 sample_151673        50       102
-## AAACAATCTACTAGCA-1       Layer1 sample_151673         3        43
-## AAACACCAATAACTGC-1       WM     sample_151673        59        19
-##                    pxl_col_in_fullres pxl_row_in_fullres       sum  detected
-##                             <integer>          <integer> <numeric> <numeric>
-## AAACAAGTATCTCCCA-1               8468               9791      8458      3586
-## AAACAATCTACTAGCA-1               2807               5769      1667      1150
-## AAACACCAATAACTGC-1               9505               4068      3769      1960
+## DataFrame with 3 rows and 23 columns
+##                    cell_count ground_truth     sample_id pxl_col_in_fullres
+##                     <integer>     <factor>   <character>          <integer>
+## AAACAAGTATCTCCCA-1          6       Layer3 sample_151673               8468
+## AAACAATCTACTAGCA-1         16       Layer1 sample_151673               2807
+## AAACACCAATAACTGC-1          5       WM     sample_151673               9505
+##                    pxl_row_in_fullres         barcode_id in_tissue array_col
+##                             <integer>        <character> <integer> <integer>
+## AAACAAGTATCTCCCA-1               9791 AAACAAGTATCTCCCA-1         1        50
+## AAACAATCTACTAGCA-1               5769 AAACAATCTACTAGCA-1         1         3
+## AAACACCAATAACTGC-1               4068 AAACACCAATAACTGC-1         1        59
+##                    array_row         x         y       sum  detected
+##                    <integer> <integer> <integer> <numeric> <numeric>
+## AAACAAGTATCTCCCA-1       102      8468      9791      8458      3586
+## AAACAATCTACTAGCA-1        43      2807      5769      1667      1150
+## AAACACCAATAACTGC-1        19      9505      4068      3769      1960
 ##                    subsets_mito_sum subsets_mito_detected subsets_mito_percent
 ##                           <numeric>             <numeric>            <numeric>
 ## AAACAAGTATCTCCCA-1             1407                    13              16.6351
 ## AAACAATCTACTAGCA-1              204                    11              12.2376
 ## AAACACCAATAACTGC-1              430                    13              11.4089
-##                        total
-##                    <numeric>
-## AAACAAGTATCTCCCA-1      8458
-## AAACAATCTACTAGCA-1      1667
-## AAACACCAATAACTGC-1      3769
+##                        total         barcode_id in_tissue array_col array_row
+##                    <numeric>        <character> <integer> <integer> <integer>
+## AAACAAGTATCTCCCA-1      8458 AAACAAGTATCTCCCA-1         1        50       102
+## AAACAATCTACTAGCA-1      1667 AAACAATCTACTAGCA-1         1         3        43
+## AAACACCAATAACTGC-1      3769 AAACACCAATAACTGC-1         1        59        19
+##                            x         y
+##                    <integer> <integer>
+## AAACAAGTATCTCCCA-1      8468      9791
+## AAACAATCTACTAGCA-1      2807      5769
+## AAACACCAATAACTGC-1      9505      4068
 ```
-
 
 Select filtering thresholds for the QC metrics by examining distributions using histograms. For additional details, including further exploratory visualizations to select the thresholds, see [Quality control]. Here, we use relatively relaxed thresholds, since the additional exploratory visualizations showed that more stringent thresholds tended to remove groups of spots corresponding to biologically meaningful regions.
 
@@ -192,21 +202,15 @@ table(discard)
 colData(spe)$discard <- discard
 ```
 
-
 Plot the set of discarded spots in the spatial x-y coordinates, to confirm that the spatial distribution of the discarded spots does not correspond to any biologically meaningful regions, which would indicate that we are removing biologically informative spots.
-
-We use QC visualization functions from the [spatzli](https://github.com/lmweber/spatzli) package to generate plots.
 
 
 ```r
-library(spatzli)
-
 # check spatial pattern of discarded spots
-plotQCspots(spe, discard = "discard")
+plotQC(spe, type = "spots", discard = "discard")
 ```
 
 <img src="workflow_Visium_humanDLPFC_files/figure-html/QC_check-1.png" width="672" />
-
 
 There is some concentration of discarded spots at the edge of the tissue region, which may be due to tissue damage. Importantly, the discarded spots do not correspond to any of the cortical layers of interest.
 
@@ -231,7 +235,10 @@ Calculate log-transformed normalized counts, using pool-based size factors and d
 
 ```r
 library(scran)
+```
 
+
+```r
 # quick clustering for pool-based size factors
 set.seed(123)
 qclus <- quickCluster(spe)
@@ -276,7 +283,7 @@ assayNames(spe)
 
 ## Feature selection
 
-Identify a set of top highly variable genes (HVGs), which will be used to define cell types. We use methods from `scran` [@Lun2016], treating spots as equivalent to cells, and considering only molecular features (gene expression). Alternative methods adapted for spatial data will be described in [Feature selection]. We also first filter out mitochondrial genes, since these are very highly expressed and not of biological interest here.
+Identify a set of top highly variable genes (HVGs), which will be used to define cell types. We use methods from `scran` [@Lun2016], treating spots as equivalent to cells, and considering only molecular features (gene expression), as described in [Feature selection]. We also first filter out mitochondrial genes, since these are very highly expressed and not of biological interest here.
 
 
 ```r
@@ -363,14 +370,14 @@ dim(reducedDim(spe, "UMAP"))
 ```
 
 ```r
-# update column names for plotting functions
+# update column names for easier plotting
 colnames(reducedDim(spe, "UMAP")) <- paste0("UMAP", 1:2)
 ```
 
 
 ## Clustering
 
-Next, we perform clustering to define cell types. Here, we use molecular features (gene expression) only. Alternative approaches for spatial data that take into account spatial and other features will be described in [Clustering]. We apply graph-based clustering using the Walktrap method implemented in `scran` [@Lun2016], applied to the top 50 PCs calculated on the set of top HVGs.
+Next, we perform clustering to define cell types. Here, we use molecular features (gene expression) only, as described in [Clustering]. We apply graph-based clustering using the Walktrap method implemented in `scran` [@Lun2016], applied to the top 50 PCs calculated on the set of top HVGs.
 
 
 ```r
@@ -394,24 +401,23 @@ table(clus)
 colLabels(spe) <- factor(clus)
 ```
 
-
-Visualize the clusters by plotting in (i) spatial x-y coordinates on the tissue slide, and (ii) UMAP dimensions. We use plotting functions from the [ggspavis](https://github.com/lmweber/ggpavis) package.
+Visualize the clusters by plotting in (i) spatial (x-y) coordinates on the tissue slide, and (ii) UMAP dimensions.
 
 From the visualizations, we can see that the clustering reproduces the known biological structure (cortical layers), although not perfectly. The clusters are also separated in UMAP space, but again not perfectly.
 
 
 ```r
-library(ggspavis)
-
 # plot clusters in spatial x-y coordinates
-plotSpots(spe, discrete = "label", palette = "libd_layer_colors")
+plotSpots(spe, annotate = "label", 
+          palette = "libd_layer_colors")
 ```
 
 <img src="workflow_Visium_humanDLPFC_files/figure-html/clustering_plots_spots-1.png" width="672" />
 
 ```r
-# plot ground truth labels in spatial x-y coordinates
-plotSpots(spe, discrete = "ground_truth", palette = "libd_layer_colors")
+# plot ground truth labels in spatial coordinates
+plotSpots(spe, annotate = "ground_truth", 
+          palette = "libd_layer_colors")
 ```
 
 ```
@@ -423,7 +429,8 @@ plotSpots(spe, discrete = "ground_truth", palette = "libd_layer_colors")
 
 ```r
 # plot clusters in UMAP reduced dimensions
-plotDimRed(spe, type = "UMAP", discrete = "label", palette = "libd_layer_colors")
+plotDimRed(spe, type = "UMAP", 
+           annotate = "label", palette = "libd_layer_colors")
 ```
 
 <img src="workflow_Visium_humanDLPFC_files/figure-html/clustering_plots_reduced-1.png" width="480" />
@@ -435,7 +442,7 @@ Identify marker genes by testing for differential gene expression between cluste
 
 
 ```r
-# set gene names as row names for visualization purposes
+# set gene names as row names for easier plotting
 rownames(spe) <- rowData(spe)$gene_name
 
 # test for marker genes
@@ -453,7 +460,10 @@ markers
 
 ```r
 library(pheatmap)
+```
 
+
+```r
 # plot log-fold changes for one cluster over all other clusters
 # selecting cluster 1
 interesting <- markers[[1]]
@@ -474,5 +484,4 @@ plotExpression(spe, x = "label", features = top_genes)
 ```
 
 <img src="workflow_Visium_humanDLPFC_files/figure-html/marker_genes_expression-1.png" width="672" />
-
 

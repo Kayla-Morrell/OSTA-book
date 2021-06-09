@@ -1,15 +1,13 @@
 # Feature selection
 
-
 ## Background
 
-Chapter on feature selection, including standard single-cell methods as well as new methods developed for ST data.
-
+Here we apply feature selection methods to identify highly variable genes (HVGs) for further downstream analyses.
 
 
 ## Previous steps
 
-*Code to run steps from the previous chapters, to generate the `SpatialExperiment` object required for this chapter. For more details on each step, see the previous chapters.*
+*Code to run steps from the previous chapters to generate the `SpatialExperiment` object required for this chapter.*
 
 
 ```r
@@ -17,7 +15,7 @@ Chapter on feature selection, including standard single-cell methods as well as 
 
 library(SpatialExperiment)
 library(STexampleData)
-spe <- load_data("Visium_humanDLPFC")
+spe <- Visium_humanDLPFC()
 
 # QUALITY CONTROL (QC)
 
@@ -50,7 +48,6 @@ spe <- computeSumFactors(spe, cluster = qclus)
 # calculate logcounts (log-transformed normalized counts)
 spe <- logNormCounts(spe)
 ```
-
 
 
 ## Highly variable genes (HVGs)
@@ -100,29 +97,7 @@ length(top_hvgs)
 ```
 
 
-
 ## Spatially variable genes (SVGs)
 
-Section on alternative methods for SVGs
-
-
-### SpatialDE
-
-SpatialDE [@Svensson2018]
-
-
-### SPARK
-
-SPARK [@Sun2020]
-
-
-### Moran's I statistic
-
-Moran's I statistic
-
-
-### Further methods
-
-Further methods
-
+To do: add section on alternative methods for identifying SVGs
 
