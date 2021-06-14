@@ -34,11 +34,12 @@ spe
 ## rowData names(3): gene_id gene_name feature_type
 ## colnames(4992): AAACAACGAATAGTTC-1 AAACAAGTATCTCCCA-1 ...
 ##   TTGTTTGTATTACACG-1 TTGTTTGTGTAAATTC-1
-## colData names(3): sample_id pxl_col_in_fullres pxl_row_in_fullres
+## colData names(1): sample_id
 ## reducedDimNames(0):
 ## mainExpName: NULL
 ## altExpNames(0):
-## spatialData names(6) : barcode_id in_tissue ... x y
+## spatialData names(6) : barcode_id in_tissue ... pxl_col_in_fullres
+##   pxl_row_in_fullres
 ## spatialCoords names(2) : x y
 ## imgData names(4): sample_id image_id data scaleFactor
 ```
@@ -115,37 +116,27 @@ head(colData(spe), 3)
 ```
 
 ```
-## DataFrame with 3 rows and 21 columns
-##                      sample_id pxl_col_in_fullres pxl_row_in_fullres
-##                    <character>          <integer>          <integer>
-## AAACAAGTATCTCCCA-1    sample01               7237               8229
-## AAACAATCTACTAGCA-1    sample01               1611               4169
-## AAACACCAATAACTGC-1    sample01               8315               2518
-##                            barcode_id in_tissue array_col array_row         x
-##                           <character> <integer> <integer> <integer> <integer>
-## AAACAAGTATCTCCCA-1 AAACAAGTATCTCCCA-1         1        50       102      7237
-## AAACAATCTACTAGCA-1 AAACAATCTACTAGCA-1         1         3        43      1611
-## AAACACCAATAACTGC-1 AAACACCAATAACTGC-1         1        59        19      8315
-##                            y       sum  detected subsets_mito_sum
-##                    <integer> <numeric> <numeric>        <numeric>
-## AAACAAGTATCTCCCA-1      8229     20935      5230             4036
-## AAACAATCTACTAGCA-1      4169     14789      3646             3419
-## AAACACCAATAACTGC-1      2518     34646      6272             5068
-##                    subsets_mito_detected subsets_mito_percent     total
-##                                <numeric>            <numeric> <numeric>
-## AAACAAGTATCTCCCA-1                    13              19.2787     20935
-## AAACAATCTACTAGCA-1                    13              23.1185     14789
-## AAACACCAATAACTGC-1                    13              14.6280     34646
-##                            barcode_id in_tissue array_col array_row         x
-##                           <character> <integer> <integer> <integer> <integer>
-## AAACAAGTATCTCCCA-1 AAACAAGTATCTCCCA-1         1        50       102      7237
-## AAACAATCTACTAGCA-1 AAACAATCTACTAGCA-1         1         3        43      1611
-## AAACACCAATAACTGC-1 AAACACCAATAACTGC-1         1        59        19      8315
-##                            y
-##                    <integer>
-## AAACAAGTATCTCCCA-1      8229
-## AAACAATCTACTAGCA-1      4169
-## AAACACCAATAACTGC-1      2518
+## DataFrame with 3 rows and 13 columns
+##                      sample_id         barcode_id in_tissue array_row array_col
+##                    <character>        <character> <integer> <integer> <integer>
+## AAACAAGTATCTCCCA-1    sample01 AAACAAGTATCTCCCA-1         1        50       102
+## AAACAATCTACTAGCA-1    sample01 AAACAATCTACTAGCA-1         1         3        43
+## AAACACCAATAACTGC-1    sample01 AAACACCAATAACTGC-1         1        59        19
+##                    pxl_col_in_fullres pxl_row_in_fullres       sum  detected
+##                             <integer>          <integer> <numeric> <numeric>
+## AAACAAGTATCTCCCA-1               7237               8229     20935      5230
+## AAACAATCTACTAGCA-1               1611               4169     14789      3646
+## AAACACCAATAACTGC-1               8315               2518     34646      6272
+##                    subsets_mito_sum subsets_mito_detected subsets_mito_percent
+##                           <numeric>             <numeric>            <numeric>
+## AAACAAGTATCTCCCA-1             4036                    13              19.2787
+## AAACAATCTACTAGCA-1             3419                    13              23.1185
+## AAACACCAATAACTGC-1             5068                    13              14.6280
+##                        total
+##                    <numeric>
+## AAACAAGTATCTCCCA-1     20935
+## AAACAATCTACTAGCA-1     14789
+## AAACACCAATAACTGC-1     34646
 ```
 
 Select filtering thresholds for the QC metrics by examining distributions using histograms.

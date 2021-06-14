@@ -106,55 +106,39 @@ head(colData(spe))
 ```
 
 ```
-## DataFrame with 6 rows and 23 columns
-##                    cell_count ground_truth     sample_id pxl_col_in_fullres
-##                     <integer>     <factor>   <character>          <integer>
-## AAACAAGTATCTCCCA-1          6       Layer3 sample_151673               8468
-## AAACAATCTACTAGCA-1         16       Layer1 sample_151673               2807
-## AAACACCAATAACTGC-1          5       WM     sample_151673               9505
-## AAACAGAGCGACTCCT-1          2       Layer3 sample_151673               4151
-## AAACAGCTTTCAGAAG-1          4       Layer5 sample_151673               7583
-## AAACAGGGTCTATATT-1          6       Layer6 sample_151673               8064
-##                    pxl_row_in_fullres         barcode_id in_tissue array_col
-##                             <integer>        <character> <integer> <integer>
-## AAACAAGTATCTCCCA-1               9791 AAACAAGTATCTCCCA-1         1        50
-## AAACAATCTACTAGCA-1               5769 AAACAATCTACTAGCA-1         1         3
-## AAACACCAATAACTGC-1               4068 AAACACCAATAACTGC-1         1        59
-## AAACAGAGCGACTCCT-1               9271 AAACAGAGCGACTCCT-1         1        14
-## AAACAGCTTTCAGAAG-1               3393 AAACAGCTTTCAGAAG-1         1        43
-## AAACAGGGTCTATATT-1               3665 AAACAGGGTCTATATT-1         1        47
-##                    array_row         x         y       sum  detected
-##                    <integer> <integer> <integer> <numeric> <numeric>
-## AAACAAGTATCTCCCA-1       102      8468      9791      8458      3586
-## AAACAATCTACTAGCA-1        43      2807      5769      1667      1150
-## AAACACCAATAACTGC-1        19      9505      4068      3769      1960
-## AAACAGAGCGACTCCT-1        94      4151      9271      5433      2424
-## AAACAGCTTTCAGAAG-1         9      7583      3393      4278      2264
-## AAACAGGGTCTATATT-1        13      8064      3665      4004      2178
-##                    subsets_mito_sum subsets_mito_detected subsets_mito_percent
-##                           <numeric>             <numeric>            <numeric>
-## AAACAAGTATCTCCCA-1             1407                    13              16.6351
-## AAACAATCTACTAGCA-1              204                    11              12.2376
-## AAACACCAATAACTGC-1              430                    13              11.4089
-## AAACAGAGCGACTCCT-1             1316                    13              24.2223
-## AAACAGCTTTCAGAAG-1              651                    12              15.2174
-## AAACAGGGTCTATATT-1              621                    13              15.5095
-##                        total         barcode_id in_tissue array_col array_row
-##                    <numeric>        <character> <integer> <integer> <integer>
-## AAACAAGTATCTCCCA-1      8458 AAACAAGTATCTCCCA-1         1        50       102
-## AAACAATCTACTAGCA-1      1667 AAACAATCTACTAGCA-1         1         3        43
-## AAACACCAATAACTGC-1      3769 AAACACCAATAACTGC-1         1        59        19
-## AAACAGAGCGACTCCT-1      5433 AAACAGAGCGACTCCT-1         1        14        94
-## AAACAGCTTTCAGAAG-1      4278 AAACAGCTTTCAGAAG-1         1        43         9
-## AAACAGGGTCTATATT-1      4004 AAACAGGGTCTATATT-1         1        47        13
-##                            x         y
-##                    <integer> <integer>
-## AAACAAGTATCTCCCA-1      8468      9791
-## AAACAATCTACTAGCA-1      2807      5769
-## AAACACCAATAACTGC-1      9505      4068
-## AAACAGAGCGACTCCT-1      4151      9271
-## AAACAGCTTTCAGAAG-1      7583      3393
-## AAACAGGGTCTATATT-1      8064      3665
+## DataFrame with 6 rows and 15 columns
+##                    cell_count ground_truth     sample_id         barcode_id
+##                     <integer>     <factor>   <character>        <character>
+## AAACAAGTATCTCCCA-1          6       Layer3 sample_151673 AAACAAGTATCTCCCA-1
+## AAACAATCTACTAGCA-1         16       Layer1 sample_151673 AAACAATCTACTAGCA-1
+## AAACACCAATAACTGC-1          5       WM     sample_151673 AAACACCAATAACTGC-1
+## AAACAGAGCGACTCCT-1          2       Layer3 sample_151673 AAACAGAGCGACTCCT-1
+## AAACAGCTTTCAGAAG-1          4       Layer5 sample_151673 AAACAGCTTTCAGAAG-1
+## AAACAGGGTCTATATT-1          6       Layer6 sample_151673 AAACAGGGTCTATATT-1
+##                    in_tissue array_row array_col pxl_col_in_fullres
+##                    <integer> <integer> <integer>          <integer>
+## AAACAAGTATCTCCCA-1         1        50       102               8468
+## AAACAATCTACTAGCA-1         1         3        43               2807
+## AAACACCAATAACTGC-1         1        59        19               9505
+## AAACAGAGCGACTCCT-1         1        14        94               4151
+## AAACAGCTTTCAGAAG-1         1        43         9               7583
+## AAACAGGGTCTATATT-1         1        47        13               8064
+##                    pxl_row_in_fullres       sum  detected subsets_mito_sum
+##                             <integer> <numeric> <numeric>        <numeric>
+## AAACAAGTATCTCCCA-1               9791      8458      3586             1407
+## AAACAATCTACTAGCA-1               5769      1667      1150              204
+## AAACACCAATAACTGC-1               4068      3769      1960              430
+## AAACAGAGCGACTCCT-1               9271      5433      2424             1316
+## AAACAGCTTTCAGAAG-1               3393      4278      2264              651
+## AAACAGGGTCTATATT-1               3665      4004      2178              621
+##                    subsets_mito_detected subsets_mito_percent     total
+##                                <numeric>            <numeric> <numeric>
+## AAACAAGTATCTCCCA-1                    13              16.6351      8458
+## AAACAATCTACTAGCA-1                    11              12.2376      1667
+## AAACACCAATAACTGC-1                    13              11.4089      3769
+## AAACAGAGCGACTCCT-1                    13              24.2223      5433
+## AAACAGCTTTCAGAAG-1                    12              15.2174      4278
+## AAACAGGGTCTATATT-1                    13              15.5095      4004
 ```
 
 
