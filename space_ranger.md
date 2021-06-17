@@ -20,7 +20,7 @@ Automatic alignment of images
 ## Output files
 
 <div class="figure" style="text-align: center">
-<img src="images/space_ranger_output.png" alt="Figure caption." width="50%" />
+<img src="images/space_ranger_output.png" alt="Figure caption." width="40%" />
 <p class="caption">(\#fig:unnamed-chunk-1)Figure caption.</p>
 </div>
 
@@ -28,7 +28,7 @@ Automatic alignment of images
 ## Web summary .html file
 
 <div class="figure" style="text-align: center">
-<img src="images/web_summary.png" alt="Figure caption." width="50%" />
+<img src="images/web_summary.png" alt="Figure caption." width="75%" />
 <p class="caption">(\#fig:unnamed-chunk-2)Figure caption.</p>
 </div>
 
