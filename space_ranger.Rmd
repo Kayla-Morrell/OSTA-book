@@ -19,14 +19,14 @@ Automatic alignment of images
 
 ## Output files
 
-```{r, echo=FALSE, out.width = "50%", fig.align="center", fig.cap="Figure caption."}
+```{r, echo=FALSE, out.width = "40%", fig.align="center", fig.cap="Figure caption."}
 knitr::include_graphics("images/space_ranger_output.png")
 ```
 
 
 ## Web summary .html file
 
-```{r, echo=FALSE, out.width = "50%", fig.align="center", fig.cap="Figure caption."}
+```{r, echo=FALSE, out.width = "75%", fig.align="center", fig.cap="Figure caption."}
 knitr::include_graphics("images/web_summary.png")
 ```
 

@@ -12,19 +12,19 @@ Loupe Browser is a desktop application from 10x Genomics that allows you to visu
 
 One of the crucial first steps for processing Visium data is to align the gene expression spots to a high resolution (we use 40x) image of the tissue. While Space Ranger can do this automatically, if you want to ensure a high quality alignment with no mistakes it is best to do this manually in the Loupe browser. First, you upload the image and enter the serial number for the slide:
 
-```{r, echo=FALSE, out.width = "50%", fig.align="center", fig.cap="Figure caption."}
+```{r, echo=FALSE, out.width = "75%", fig.align="center", fig.cap="Figure caption."}
 knitr::include_graphics("images/alignment_load_image.png")
 ```
 
 Then, you align the fiducial frame:
 
-```{r, echo=FALSE, out.width = "50%", fig.align="center", fig.cap="Figure caption."}
+```{r, echo=FALSE, out.width = "75%", fig.align="center", fig.cap="Figure caption."}
 knitr::include_graphics("images/alignment_fiducial.png")
 ```
 
 Then, you manually select the spots that contain tissue:
 
-```{r, echo=FALSE, out.width = "50%", fig.align="center", fig.cap="Figure caption."}
+```{r, echo=FALSE, out.width = "75%", fig.align="center", fig.cap="Figure caption."}
 knitr::include_graphics("images/alignment_tissue.png")
 ```
 
@@ -38,31 +38,31 @@ The output files from Space Ranger are detailed in the Space Ranger section of t
 
 You can look at the dimensionality reduction of the data through either a t-SNE or UMAP as well as apply graph-based or k-means clustering. 
 
-```{r, echo=FALSE, out.width = "50%", fig.align="center", fig.cap="Figure caption."}
+```{r, echo=FALSE, out.width = "75%", fig.align="center", fig.cap="Figure caption."}
 knitr::include_graphics("images/tsne_kmeans.png")
 ```
 
 Most importantly you can overlay the gene expression data or annotated clusters onto the histology image. 
 
-```{r, echo=FALSE, out.width = "50%", fig.align="center", fig.cap="Figure caption."}
+```{r, echo=FALSE, out.width = "75%", fig.align="center", fig.cap="Figure caption."}
 knitr::include_graphics("images/spatial_graph_based.png")
 ```
 
 You can make genes lists and plot marker genes spatially.
 
-```{r, echo=FALSE, out.width = "50%", fig.align="center", fig.cap="Figure caption."}
+```{r, echo=FALSE, out.width = "75%", fig.align="center", fig.cap="Figure caption."}
 knitr::include_graphics("images/gene_expression.png")
 ```
 
 Or make violin plots.
 
-```{r, echo=FALSE, out.width = "50%", fig.align="center", fig.cap="Figure caption."}
+```{r, echo=FALSE, out.width = "75%", fig.align="center", fig.cap="Figure caption."}
 knitr::include_graphics("images/violin_plots.png")
 ```
 
 Lastly, you can look at differential expression.
 
-```{r, echo=FALSE, out.width = "50%", fig.align="center", fig.cap="Figure caption."}
+```{r, echo=FALSE, out.width = "75%", fig.align="center", fig.cap="Figure caption."}
 knitr::include_graphics("images/deg.png")
 ```
 
