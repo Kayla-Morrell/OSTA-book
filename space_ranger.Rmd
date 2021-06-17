@@ -20,7 +20,7 @@ Automatic alignment of images
 ## Output files
 
 ```{r, echo=FALSE, out.width = "50%", fig.align="center", fig.cap="Figure caption."}
-knitr::include_graphics("images/space_ranger_ouput.png")
+knitr::include_graphics("images/space_ranger_output.png")
 ```
 
 
