@@ -19,10 +19,15 @@ Automatic alignment of images
 
 ## Output files
 
-(knitr::include_graphics("images/space_ranger_ouput.png"))
+```{r, echo=FALSE, out.width = "50%", fig.align="center", fig.cap="Figure caption."}
+knitr::include_graphics("images/space_ranger_ouput.png")
+```
 
 ## Web summary .html file
-(knitr::include_graphics("images/web_summary.png"))
+
+```{r, echo=FALSE, out.width = "50%", fig.align="center", fig.cap="Figure caption."}
+knitr::include_graphics("images/web_summary.png")
+```
 
 ## Import outputs into R
 
