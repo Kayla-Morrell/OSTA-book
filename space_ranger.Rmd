@@ -6,7 +6,7 @@
 
 ## Installation
 
-More detailed instructions can be found here: https://support.10xgenomics.com/spatial-gene-expression/software/pipelines/latest/installation
+More detailed instructions can be found on the [10x Genomics website](https://support.10xgenomics.com/spatial-gene-expression/software/pipelines/latest/installation).
 
 
 ## Memory issues

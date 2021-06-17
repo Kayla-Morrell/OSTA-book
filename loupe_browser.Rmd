@@ -5,8 +5,7 @@
 
 Loupe Browser is a desktop application from 10x Genomics that allows you to visualize your gene expression data without having to write code. You can utilize this software for most types of single cell transcriptomic data generated from 10x protocols, however we will discuss specifically how to use it for data generated from the Visium Spatial Gene Expression protocol. In general, you can use the Loupe Browser to align gene expression spots to histology images, look for marker gene expression, annotate populations, and cluster with three different clustering methods. 
 
-Below is tutorial from 10x Genomics on how to use the Loupe Browser:
-https://support.10xgenomics.com/spatial-gene-expression/software/visualization/latest/analysis
+[Here](https://support.10xgenomics.com/spatial-gene-expression/software/visualization/latest/analysis) is a tutorial from 10x Genomics on how to use the Loupe Browser.
 
 
 ## Manual alignment of images
