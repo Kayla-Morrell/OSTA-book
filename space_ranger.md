@@ -4,10 +4,10 @@
 ## Overview
 
 
-
 ## Installation
 
-More detailed instructions can be found here: https://support.10xgenomics.com/spatial-gene-expression/software/pipelines/latest/installation
+More detailed instructions can be found on the [10x Genomics website](https://support.10xgenomics.com/spatial-gene-expression/software/pipelines/latest/installation).
+
 
 ## Memory issues
 
@@ -19,11 +19,19 @@ Automatic alignment of images
 
 ## Output files
 
-(knitr::include_graphics("images/space_ranger_ouput.png"))
+<div class="figure" style="text-align: center">
+<img src="images/space_ranger_output.png" alt="Figure caption." width="50%" />
+<p class="caption">(\#fig:unnamed-chunk-1)Figure caption.</p>
+</div>
+
 
 ## Web summary .html file
-(knitr::include_graphics("images/web_summary.png"))
+
+<div class="figure" style="text-align: center">
+<img src="images/web_summary.png" alt="Figure caption." width="50%" />
+<p class="caption">(\#fig:unnamed-chunk-2)Figure caption.</p>
+</div>
+
 
 ## Import outputs into R
-
 

@@ -1,6 +1,6 @@
 ---
 title: "Orchestrating Spatially Resolved Transcriptomics Analysis with Bioconductor"
-date: "2021-06-16"
+date: "2021-06-17"
 site: bookdown::bookdown_site
 documentclass: book
 bibliography: book.bib
